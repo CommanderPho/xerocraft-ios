@@ -33,7 +33,9 @@ static NSString* const kKeyForMyCardString = @"com.adrianboyko.xerocraft.MyCardS
 // - - - - - - - - - - - - - - - - - - - - - - - - - - VALIDATION
 
 + (BOOL)isValidCardString:(NSString*)str {
-    return YES; //TODO: Implement. Should be 32 chars of url-save base64. [-_a-zA-Z0-9]{32}
+    NSString *expression = @"^[-_a-zA-Z0-9]{32}$";
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", expression];
+    return [predicate evaluateWithObject:str];
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - SITE NAME

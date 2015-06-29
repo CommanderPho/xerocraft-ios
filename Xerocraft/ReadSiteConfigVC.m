@@ -57,7 +57,7 @@
         }
         else {
             alert = [[UIAlertView alloc]
-                initWithTitle:@"Failed"
+                initWithTitle:@"Error"
                 message:@"The code you've scanned doesn't appear to be a valid site configuration code."
                 delegate:self
                 cancelButtonTitle:@"Continue"

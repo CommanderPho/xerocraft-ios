@@ -52,7 +52,7 @@
                 initWithTitle:@"Error"
                 message:@"The code you scanned doesn't appear to be a membership card code."
                 delegate:self
-                cancelButtonTitle:@"OK"
+                cancelButtonTitle:@"Continue"
                 otherButtonTitles:nil];
         }
         
