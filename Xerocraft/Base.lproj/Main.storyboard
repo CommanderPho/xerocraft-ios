@@ -8,7 +8,7 @@
         <!--Read Some QR Code-->
         <scene sceneID="Kvk-cd-EJ7">
             <objects>
-                <viewController title="Read Some QR Code" id="Ef3-Ko-uYu" customClass="ReadOthersCardVC" sceneMemberID="viewController">
+                <viewController title="Read Some QR Code" id="Ef3-Ko-uYu" customClass="ReadSomeQrCodeVC" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="cJn-KO-a3P"/>
                         <viewControllerLayoutGuide type="bottom" id="IOK-W2-RV2"/>
@@ -17,21 +17,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <containerView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vjQ-vl-V4a">
-                                <rect key="frame" x="24" y="49" width="272" height="345"/>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vjQ-vl-V4a">
+                                <rect key="frame" x="24" y="72" width="272" height="322"/>
                                 <connections>
                                     <segue destination="vXZ-lx-hvc" kind="embed" identifier="ReadQR" id="Qo6-n9-WRq"/>
                                 </connections>
                             </containerView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Read Card or Permit" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1d4-aa-Ir2">
-                                <rect key="frame" x="82" y="20" width="158" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="Ubj-2y-RDJ"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bring QR Code into Frame" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w5D-d3-4Ni">
                                 <rect key="frame" x="58" y="402" width="204" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -41,16 +32,13 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="vjQ-vl-V4a" firstAttribute="top" secondItem="1d4-aa-Ir2" secondAttribute="bottom" constant="8" symbolic="YES" id="879-2b-GYf"/>
                             <constraint firstItem="IOK-W2-RV2" firstAttribute="top" secondItem="w5D-d3-4Ni" secondAttribute="bottom" constant="8" symbolic="YES" id="8P7-v1-jcy"/>
                             <constraint firstItem="vjQ-vl-V4a" firstAttribute="leading" secondItem="lG1-oI-kqN" secondAttribute="leadingMargin" constant="8" id="ETn-hC-mEC"/>
-                            <constraint firstAttribute="centerX" secondItem="1d4-aa-Ir2" secondAttribute="centerX" id="H64-di-Zk7"/>
-                            <constraint firstItem="1d4-aa-Ir2" firstAttribute="top" secondItem="cJn-KO-a3P" secondAttribute="bottom" id="QKP-7l-kiv"/>
+                            <constraint firstItem="vjQ-vl-V4a" firstAttribute="top" secondItem="cJn-KO-a3P" secondAttribute="bottom" constant="8" id="NoO-fX-auw"/>
                             <constraint firstItem="w5D-d3-4Ni" firstAttribute="top" secondItem="vjQ-vl-V4a" secondAttribute="bottom" constant="8" symbolic="YES" id="S4w-Vj-1KO"/>
                             <constraint firstAttribute="centerX" secondItem="w5D-d3-4Ni" secondAttribute="centerX" id="aFJ-6R-F51"/>
                             <constraint firstAttribute="bottomMargin" secondItem="vjQ-vl-V4a" secondAttribute="bottom" id="hc6-h3-ylH"/>
                             <constraint firstItem="vjQ-vl-V4a" firstAttribute="centerX" secondItem="w5D-d3-4Ni" secondAttribute="centerX" id="hdd-MA-Vpa"/>
-                            <constraint firstItem="w5D-d3-4Ni" firstAttribute="centerX" secondItem="1d4-aa-Ir2" secondAttribute="centerX" id="mLh-dR-bkD"/>
                             <constraint firstAttribute="bottomMargin" secondItem="vjQ-vl-V4a" secondAttribute="bottom" constant="30" id="rfU-J3-FUK"/>
                             <constraint firstAttribute="trailingMargin" secondItem="vjQ-vl-V4a" secondAttribute="trailing" constant="8" id="wdZ-BL-zCT"/>
                         </constraints>
@@ -62,7 +50,7 @@
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" id="1hk-or-ctZ"/>
+                    <navigationItem key="navigationItem" title="Read Card or Permit" id="1hk-or-ctZ"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <segue destination="0tI-3I-tNT" kind="show" identifier="Member Details" id="U4N-Zs-F5l"/>
@@ -109,11 +97,11 @@
                         <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
-                        <rect key="frame" x="0.0" y="0.0" width="272" height="345"/>
+                        <rect key="frame" x="0.0" y="0.0" width="272" height="322"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="85c-dN-fCw">
-                                <rect key="frame" x="16" y="0.0" width="240" height="345"/>
+                                <rect key="frame" x="16" y="0.0" width="240" height="322"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="300" id="Zar-Oa-MXc"/>
                                 </constraints>
@@ -286,7 +274,7 @@
         <!--Configure-->
         <scene sceneID="gQV-22-i7x">
             <objects>
-                <viewController title="Configure" id="2g3-Ip-Zgd" sceneMemberID="viewController">
+                <viewController title="Configure" id="2g3-Ip-Zgd" customClass="ConfigurationVC" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="d3M-nw-zZf"/>
                         <viewControllerLayoutGuide type="bottom" id="iMc-sK-TIn"/>
@@ -335,9 +323,9 @@
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qYe-eH-RcB">
-                                        <rect key="frame" x="13" y="162" width="263" height="41"/>
+                                        <rect key="frame" x="54" y="162" width="180" height="41"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="263" id="gpi-xQ-Ile"/>
+                                            <constraint firstAttribute="width" constant="180" id="gpi-xQ-Ile"/>
                                             <constraint firstAttribute="height" constant="41" id="ija-Gi-kNb"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="24"/>
@@ -366,18 +354,37 @@
                                             </mask>
                                         </variation>
                                     </textView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Green Check" translatesAutoresizingMaskIntoConstraints="NO" id="JxR-v6-K8W">
+                                        <rect key="frame" x="225" y="49" width="16" height="16"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="16" id="7ft-mP-8nQ"/>
+                                            <constraint firstAttribute="width" constant="16" id="UyB-li-cTt"/>
+                                        </constraints>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Green Check" translatesAutoresizingMaskIntoConstraints="NO" id="qpT-AG-81x">
+                                        <rect key="frame" x="236" y="167" width="16" height="16"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="16" id="QWV-Y1-2Yq"/>
+                                            <constraint firstAttribute="height" constant="16" id="csi-Ns-39d"/>
+                                        </constraints>
+                                    </imageView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="260" id="0ws-Nd-5Pu"/>
+                                    <constraint firstItem="JxR-v6-K8W" firstAttribute="bottom" secondItem="e7N-H2-Juc" secondAttribute="bottom" constant="-20" id="2cp-A0-yYe"/>
                                     <constraint firstItem="Jvu-Xs-3UI" firstAttribute="top" secondItem="qYe-eH-RcB" secondAttribute="bottom" constant="-5" id="3vf-7a-eNT"/>
                                     <constraint firstAttribute="centerX" secondItem="e7N-H2-Juc" secondAttribute="centerX" id="8RY-S5-59U"/>
+                                    <constraint firstItem="qpT-AG-81x" firstAttribute="leading" secondItem="qYe-eH-RcB" secondAttribute="trailing" constant="2" id="8eh-74-PCc"/>
                                     <constraint firstAttribute="width" constant="288" id="D79-cn-RR0"/>
                                     <constraint firstAttribute="centerX" secondItem="e7N-H2-Juc" secondAttribute="centerX" id="Kj5-iq-WdR"/>
                                     <constraint firstAttribute="centerX" secondItem="qYe-eH-RcB" secondAttribute="centerX" id="MMT-nS-fzS"/>
+                                    <constraint firstItem="qpT-AG-81x" firstAttribute="bottom" secondItem="qYe-eH-RcB" secondAttribute="bottom" constant="-20" id="NYi-CJ-njt"/>
                                     <constraint firstItem="e7N-H2-Juc" firstAttribute="top" secondItem="TZJ-C9-f69" secondAttribute="bottom" constant="15" id="U9c-Qe-Gzr"/>
+                                    <constraint firstAttribute="centerX" secondItem="qYe-eH-RcB" secondAttribute="centerX" id="X0z-S9-ztq"/>
                                     <constraint firstAttribute="trailing" secondItem="npJ-Mr-uVd" secondAttribute="trailing" constant="17" id="d9W-dO-kTU"/>
                                     <constraint firstItem="npJ-Mr-uVd" firstAttribute="leading" secondItem="ThW-Ra-BLi" secondAttribute="leading" constant="17" id="e1x-dL-dCr"/>
                                     <constraint firstAttribute="centerX" secondItem="TZJ-C9-f69" secondAttribute="centerX" id="gJz-qf-sW9"/>
+                                    <constraint firstItem="JxR-v6-K8W" firstAttribute="leading" secondItem="e7N-H2-Juc" secondAttribute="trailing" constant="4" id="j8a-4Z-W33"/>
                                     <constraint firstItem="qYe-eH-RcB" firstAttribute="top" secondItem="npJ-Mr-uVd" secondAttribute="bottom" constant="15" id="nWm-8p-qsf"/>
                                     <constraint firstItem="Jvu-Xs-3UI" firstAttribute="leading" secondItem="ThW-Ra-BLi" secondAttribute="leading" constant="17" id="oFt-Wl-QmP"/>
                                     <constraint firstAttribute="trailing" secondItem="Jvu-Xs-3UI" secondAttribute="trailing" constant="17" id="sVv-Ar-3uK"/>
@@ -387,7 +394,9 @@
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
+                                        <exclude reference="8RY-S5-59U"/>
                                         <exclude reference="tiJ-m0-IqM"/>
+                                        <exclude reference="MMT-nS-fzS"/>
                                     </mask>
                                 </variation>
                             </view>
@@ -398,7 +407,11 @@
                             <constraint firstAttribute="centerX" secondItem="ThW-Ra-BLi" secondAttribute="centerX" id="vCD-b3-e00"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="vqd-c1-kqI"/>
+                    <navigationItem key="navigationItem" title="Configuration" id="vqd-c1-kqI"/>
+                    <connections>
+                        <outlet property="SiteStatusImg" destination="qpT-AG-81x" id="469-ob-h6w"/>
+                        <outlet property="myCardStatusImg" destination="JxR-v6-K8W" id="cNr-Ur-niM"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rbA-1M-MFc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -637,6 +650,7 @@
     </scenes>
     <resources>
         <image name="About Tab" width="30" height="30"/>
+        <image name="Green Check" width="16" height="16"/>
         <image name="Logo Tab" width="30" height="29"/>
         <image name="Read Tab" width="30" height="30"/>
         <image name="Settings Tab" width="30" height="30"/>

@@ -35,8 +35,7 @@
 - (void)updateProblemBadge {
     
     int problemCount = 0;
-    if (AppState.sharedInstance.siteName == nil) problemCount++;
-    if (AppState.sharedInstance.server == nil) problemCount++;
+    if (AppState.sharedInstance.siteName == nil || AppState.sharedInstance.server == nil) problemCount++;
     if (AppState.sharedInstance.myCardString == nil) problemCount++;
     NSString *problemStr = [NSString stringWithFormat:@"%d", problemCount];
     if (problemCount == 0) problemStr = nil;

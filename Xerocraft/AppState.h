@@ -11,6 +11,7 @@
 @interface AppState : NSObject
 
 + (AppState*)sharedInstance;
++ (BOOL)isValidCardString:(NSString*)str;
 
 @property (nonatomic, copy) NSString* myCardString;
 @property (nonatomic, copy) NSString* server;

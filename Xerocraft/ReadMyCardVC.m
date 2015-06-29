@@ -39,21 +39,25 @@
 
 - (void)processString:(NSString *)qrDataString {
     
-    // TODO: VAlidate qrDataString. Should be 32 chars of url-save base64. [-_a-zA-Z0-9]{32}
-    
     if (!self.alreadyRead) {
         self.alreadyRead = YES;
         
-        AppState.sharedInstance.myCardString = qrDataString;
-        UIAlertView *alert = [[UIAlertView alloc]
-            initWithTitle:@"Success"
-            message:@"[Card String Hidden]"
-            delegate:self
-            cancelButtonTitle:@"OK"
-            otherButtonTitles:nil];
+        UIAlertView* alert = nil;
+        
+        if ([AppState isValidCardString:qrDataString]) {
+            AppState.sharedInstance.myCardString = qrDataString;
+        }
+        else {
+            alert = [[UIAlertView alloc]
+                initWithTitle:@"Error"
+                message:@"The code you scanned doesn't appear to be a membership card code."
+                delegate:self
+                cancelButtonTitle:@"OK"
+                otherButtonTitles:nil];
+        }
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [alert show];
+            if (alert) [alert show];
             [self.navigationController popViewControllerAnimated:YES];
         });
     }

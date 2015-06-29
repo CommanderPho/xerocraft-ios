@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "ReadQrDelegate.h"
 
-@interface ReadOthersCardVC : UIViewController <ReadQrDelegate>
+@interface ReadSomeQrCodeVC : UIViewController <ReadQrDelegate>
 
 @end

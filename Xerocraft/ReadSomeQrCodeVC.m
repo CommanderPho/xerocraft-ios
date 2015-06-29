@@ -6,14 +6,15 @@
 //  Copyright (c) 2015 Adrian Boyko. All rights reserved.
 //
 
-#import "ReadOthersCardVC.h"
+#import "ReadSomeQrCodeVC.h"
 #import "ReadQrViewController.h"
+#import "AppState.h"
 
-@interface ReadOthersCardVC ()
+@interface ReadSomeQrCodeVC ()
 
 @end
 
-@implementation ReadOthersCardVC
+@implementation ReadSomeQrCodeVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];

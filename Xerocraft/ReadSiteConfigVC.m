@@ -54,23 +54,17 @@
             NSString *site = json[@"site"];
             AppState.sharedInstance.siteName = site;
             AppState.sharedInstance.server = server;
-            alert = [[UIAlertView alloc]
-                initWithTitle:@"Success"
-                message:[NSString stringWithFormat:@"%@/%@", site, server]
-                delegate:self
-                cancelButtonTitle:@"OK"
-                otherButtonTitles:nil];
         }
         else {
             alert = [[UIAlertView alloc]
                 initWithTitle:@"Failed"
-                message:qrDataString
+                message:@"The code you've scanned doesn't appear to be a valid site configuration code."
                 delegate:self
                 cancelButtonTitle:@"Continue"
                 otherButtonTitles:nil]; // TODO: Can a "debug" button be added which shows the err.description?
         }
         dispatch_async(dispatch_get_main_queue(), ^{
-            [alert show];
+            if (alert) [alert show];
             [self.navigationController popViewControllerAnimated:YES];
         });
     }

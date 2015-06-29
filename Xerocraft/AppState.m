@@ -30,6 +30,12 @@ static NSString* const kKeyForMyCardString = @"com.adrianboyko.xerocraft.MyCardS
     return _sharedObject;
 }
 
+// - - - - - - - - - - - - - - - - - - - - - - - - - - VALIDATION
+
++ (BOOL)validateCardString:(NSString*)str {
+    return YES; //TODO: Implement. Should be 32 chars of url-save base64. [-_a-zA-Z0-9]{32}
+}
+
 // - - - - - - - - - - - - - - - - - - - - - - - - - - SITE NAME
 
 - (NSString*) siteName {
