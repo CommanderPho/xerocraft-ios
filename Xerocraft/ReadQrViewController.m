@@ -1,35 +1,41 @@
 //
-//  ViewController.m
+//  ReadQrViewController.m
 //  Xerocraft
 //
 //  Created by Adrian Boyko on 6/22/15.
 //  Copyright (c) 2015 Adrian Boyko. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "ReadQrViewController.h"
 
-@interface ViewController ()
+@interface ReadQrViewController ()
 
 @property (weak, nonatomic) IBOutlet UIView *camView;
-@property (weak, nonatomic) IBOutlet UILabel *statusLabel;
-
-@property (weak, nonatomic) IBOutlet UIButton *startStopButton;
 
 @property (nonatomic) BOOL isReading;
 @property (nonatomic, strong) AVCaptureSession *captureSession;
 @property (nonatomic, strong) AVCaptureVideoPreviewLayer *videoPreviewLayer;
 
-
 @end
 
-@implementation ViewController
+@implementation ReadQrViewController
 
 @synthesize isReading = _isReading;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _isReading = NO;
     _captureSession = nil;
+    _isReading = NO;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    self.isReading = YES;
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    self.isReading = NO;
+    [super viewWillDisappear:animated];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -46,8 +52,6 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             _isReading = NO;
             [self stopReading];
-            [self.startStopButton setTitle:@"Start" forState:UIControlStateNormal];
-            [self.statusLabel setText:@"Waiting"];
             [self.view setNeedsDisplay];
         });
     }
@@ -55,8 +59,6 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             _isReading = YES;
             [self startReading];
-            [self.startStopButton setTitle:@"Stop" forState:UIControlStateNormal];
-            [self.statusLabel setText:@"Watching for QR Code"];
             [self.view setNeedsDisplay];
         });
     }
@@ -114,10 +116,6 @@
     [self.videoPreviewLayer removeFromSuperlayer];
 }
 
-- (IBAction)startStopTouch:(UIButton*)sender {
-    self.isReading = !self.isReading;
-}
-
 -(void) captureOutput:(AVCaptureOutput*)captureOutput
     didOutputMetadataObjects:(NSArray*)metadataObjects
     fromConnection:(AVCaptureConnection*)connection {
@@ -125,9 +123,9 @@
     if (metadataObjects != nil && [metadataObjects count] > 0) {
         AVMetadataMachineReadableCodeObject *metadataObj = [metadataObjects objectAtIndex:0];
         if ([[metadataObj type] isEqualToString:AVMetadataObjectTypeQRCode]) {
-            [self.statusLabel performSelectorOnMainThread:@selector(setText:) withObject:@"Got it!" waitUntilDone:NO];
             // TODO: send [metadataObj stringValue] to URL then segue to user info
             self.isReading = NO;
+            [self.delegate processString: metadataObj.stringValue];
         }
     }
 }
