@@ -11,6 +11,9 @@
 @protocol ReadQrDelegate <NSObject>
 
 @required
-- (void)processString:(NSString*)qrDataString;
+
+// Delegate should return YES if scanning for codes should continue, else NO.
+- (BOOL)processString:(NSString*)qrDataString;
+
 @end
 

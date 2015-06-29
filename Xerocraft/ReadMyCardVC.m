@@ -37,7 +37,7 @@
     }
 }
 
-- (void)processString:(NSString *)qrDataString {
+- (BOOL)processString:(NSString *)qrDataString {
     
     if (!self.alreadyRead) {
         self.alreadyRead = YES;
@@ -61,6 +61,7 @@
             [self.navigationController popViewControllerAnimated:YES];
         });
     }
+    return NO; // I.e. do not continue scanning for QR codes.
 }
 
 @end

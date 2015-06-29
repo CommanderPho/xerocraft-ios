@@ -39,7 +39,7 @@
     }
 }
 
-- (void)processString:(NSString *)qrDataString {
+- (BOOL)processString:(NSString *)qrDataString {
     
     NSData *jsonData = [qrDataString dataUsingEncoding:NSUTF8StringEncoding];
     NSError *err = nil;
@@ -68,6 +68,7 @@
             [self.navigationController popViewControllerAnimated:YES];
         });
     }
+    return NO; // I.e. do not continue scanning for QR codes.
 }
 
 @end

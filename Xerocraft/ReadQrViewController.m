@@ -123,9 +123,8 @@
     if (metadataObjects != nil && [metadataObjects count] > 0) {
         AVMetadataMachineReadableCodeObject *metadataObj = [metadataObjects objectAtIndex:0];
         if ([[metadataObj type] isEqualToString:AVMetadataObjectTypeQRCode]) {
-            // TODO: send [metadataObj stringValue] to URL then segue to user info
-            self.isReading = NO;
-            [self.delegate processString: metadataObj.stringValue];
+            BOOL continueCapture = [self.delegate processString: metadataObj.stringValue];
+            if (!continueCapture) self.isReading = NO;
         }
     }
 }
