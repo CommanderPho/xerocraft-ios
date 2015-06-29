@@ -12,7 +12,6 @@
 
 @interface ReadMyCardVC ()
 @property (weak, nonatomic) IBOutlet UIView *qrReader;
-@property (nonatomic, assign) BOOL alreadyRead;
 
 @end
 
@@ -20,7 +19,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _alreadyRead = NO;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -38,29 +36,26 @@
 }
 
 - (BOOL)qrReader:(ReadQrVC *)qrReader readString:(NSString *)qrDataString {
+
+    UIAlertView* alert = nil;
     
-    if (!self.alreadyRead) {
-        self.alreadyRead = YES;
-        
-        UIAlertView* alert = nil;
-        
-        if ([AppState isValidCardString:qrDataString]) {
-            AppState.sharedInstance.myCardString = qrDataString;
-        }
-        else {
-            alert = [[UIAlertView alloc]
-                initWithTitle:@"Error"
-                message:@"The code you scanned doesn't appear to be a membership card code."
-                delegate:self
-                cancelButtonTitle:@"Continue"
-                otherButtonTitles:nil];
-        }
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (alert) [alert show];
-            [self.navigationController popViewControllerAnimated:YES];
-        });
+    if ([AppState isValidCardString:qrDataString]) {
+        AppState.sharedInstance.myCardString = qrDataString;
     }
+    else {
+        alert = [[UIAlertView alloc]
+            initWithTitle:@"Error"
+            message:@"The code you scanned doesn't appear to be a membership card code."
+            delegate:self
+            cancelButtonTitle:@"Continue"
+            otherButtonTitles:nil];
+    }
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (alert) [alert show];
+        [self.navigationController popViewControllerAnimated:YES];
+    });
+
     return NO; // I.e. do not continue scanning for QR codes.
 }
 

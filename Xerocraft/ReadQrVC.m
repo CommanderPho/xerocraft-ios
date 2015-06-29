@@ -133,6 +133,10 @@
     if (metadataObjects != nil && [metadataObjects count] > 0) {
         AVMetadataMachineReadableCodeObject *metadataObj = [metadataObjects objectAtIndex:0];
         if ([[metadataObj type] isEqualToString:AVMetadataObjectTypeQRCode]) {
+            
+            // Ignore duplicate notifications:
+            if ([metadataObj.stringValue isEqualToString:self.lastStringRead]) return;
+            
             self.lastStringRead = metadataObj.stringValue;
             BOOL continueCapture = [self.delegate qrReader:self readString:metadataObj.stringValue];
             if (!continueCapture) self.isReading = NO;

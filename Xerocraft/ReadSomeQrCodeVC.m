@@ -12,15 +12,12 @@
 
 @interface ReadSomeQrCodeVC ()
 
-@property (nonatomic, assign) NSString *lastScanned;
-
 @end
 
 @implementation ReadSomeQrCodeVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _lastScanned = nil;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -37,10 +34,7 @@
 }
 
 - (BOOL)qrReader:(ReadQrVC *)qrReader readString:(NSString *)qrDataString {
-
-    // Ignore duplicate scans.
-    if ([qrDataString isEqualToString:self.lastScanned]) return YES;
-        
+    
     if ([AppState isValidCardString:qrDataString]) {
         //TODO: Get info from server then seque to table view of member.
         return NO; // I.e. do not continue scanning for QR codes.
