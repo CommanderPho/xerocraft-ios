@@ -6,26 +6,36 @@
 //  Copyright (c) 2015 Adrian Boyko. All rights reserved.
 //
 
-#import "ReadQrViewController.h"
+#import "ReadQrVC.h"
 
-@interface ReadQrViewController ()
+@interface ReadQrVC ()
 
-@property (weak, nonatomic) IBOutlet UIView *camView;
+@property (weak, nonatomic)   IBOutlet UIView *camView;
 
-@property (nonatomic) BOOL isReading;
+@property (nonatomic, strong) NSString *lastStringRead;
+@property (nonatomic, assign) BOOL isReading;
 @property (nonatomic, strong) AVCaptureSession *captureSession;
 @property (nonatomic, strong) AVCaptureVideoPreviewLayer *videoPreviewLayer;
 
 @end
 
-@implementation ReadQrViewController
+@implementation ReadQrVC
 
 @synthesize isReading = _isReading;
+
+- (NSObject*)json {
+    if (self.lastStringRead == nil) return nil;
+    NSData *jsonData = [self.lastStringRead dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *err = nil;
+    NSObject *result = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&err];
+    return err ? nil : result;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     _captureSession = nil;
     _isReading = NO;
+    _lastStringRead = nil;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -123,7 +133,8 @@
     if (metadataObjects != nil && [metadataObjects count] > 0) {
         AVMetadataMachineReadableCodeObject *metadataObj = [metadataObjects objectAtIndex:0];
         if ([[metadataObj type] isEqualToString:AVMetadataObjectTypeQRCode]) {
-            BOOL continueCapture = [self.delegate processString: metadataObj.stringValue];
+            self.lastStringRead = metadataObj.stringValue;
+            BOOL continueCapture = [self.delegate qrReader:self readString:metadataObj.stringValue];
             if (!continueCapture) self.isReading = NO;
         }
     }

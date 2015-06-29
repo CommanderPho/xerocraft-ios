@@ -10,9 +10,10 @@
 #import <AVFoundation/AVFoundation.h>
 #import "ReadQrDelegate.h"
 
-@interface ReadQrViewController : UIViewController <AVCaptureMetadataOutputObjectsDelegate>
+@interface ReadQrVC : UIViewController <AVCaptureMetadataOutputObjectsDelegate>
 
 @property (nonatomic, strong) id<ReadQrDelegate> delegate;
+@property (nonatomic, readonly) NSObject *json;
 
 @end
 

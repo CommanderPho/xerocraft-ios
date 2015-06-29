@@ -7,7 +7,7 @@
 //
 
 #import "ReadSiteConfigVC.h"
-#import "ReadQrViewController.h"
+#import "ReadQrVC.h"
 #import "AppState.h"
 
 @interface ReadSiteConfigVC ()
@@ -21,7 +21,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _alreadyRead = NO;
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -34,24 +33,27 @@
 {
     NSString * segueName = segue.identifier;
     if ([segueName isEqualToString: @"ReadQR"]) {
-        ReadQrViewController* qrVC = (ReadQrViewController*) [segue destinationViewController];
+        ReadQrVC* qrVC = (ReadQrVC*) [segue destinationViewController];
         qrVC.delegate = self;
     }
 }
 
-- (BOOL)processString:(NSString *)qrDataString {
+- (BOOL)qrReader:(ReadQrVC *)qrReader readString:(NSString *)qrDataString {
     
-    NSData *jsonData = [qrDataString dataUsingEncoding:NSUTF8StringEncoding];
-    NSError *err = nil;
-    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&err];
 
     if (!self.alreadyRead) {
         self.alreadyRead = YES;
 
         UIAlertView *alert = nil;
-        if (err == nil && json != nil) {
-            NSString *server = json[@"server"];
-            NSString *site = json[@"site"];
+        NSString *server = nil;
+        NSString *site = nil;
+
+        NSObject *json = qrReader.json;
+        if (json) {
+            server = [json valueForKey:@"server"];
+            site = [json valueForKey:@"site"];
+        }
+        if (server && site) {
             AppState.sharedInstance.siteName = site;
             AppState.sharedInstance.server = server;
         }
@@ -63,6 +65,7 @@
                 cancelButtonTitle:@"Continue"
                 otherButtonTitles:nil]; // TODO: Can a "debug" button be added which shows the err.description?
         }
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             if (alert) [alert show];
             [self.navigationController popViewControllerAnimated:YES];

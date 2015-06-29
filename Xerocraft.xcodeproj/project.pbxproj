@@ -12,7 +12,7 @@
 		3A9C45941B3E114700A99482 /* XerocraftTabBarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9C45931B3E114700A99482 /* XerocraftTabBarVC.m */; };
 		3AAACB641B38AC3A003CFAC0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AAACB631B38AC3A003CFAC0 /* main.m */; };
 		3AAACB671B38AC3A003CFAC0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AAACB661B38AC3A003CFAC0 /* AppDelegate.m */; };
-		3AAACB6A1B38AC3A003CFAC0 /* ReadQrViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AAACB691B38AC3A003CFAC0 /* ReadQrViewController.m */; };
+		3AAACB6A1B38AC3A003CFAC0 /* ReadQrVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AAACB691B38AC3A003CFAC0 /* ReadQrVC.m */; };
 		3AAACB6D1B38AC3A003CFAC0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3AAACB6B1B38AC3A003CFAC0 /* Main.storyboard */; };
 		3AAACB6F1B38AC3A003CFAC0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3AAACB6E1B38AC3A003CFAC0 /* Images.xcassets */; };
 		3AAACB721B38AC3A003CFAC0 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AAACB701B38AC3A003CFAC0 /* LaunchScreen.xib */; };
@@ -45,8 +45,8 @@
 		3AAACB631B38AC3A003CFAC0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3AAACB651B38AC3A003CFAC0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		3AAACB661B38AC3A003CFAC0 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		3AAACB681B38AC3A003CFAC0 /* ReadQrViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReadQrViewController.h; sourceTree = "<group>"; };
-		3AAACB691B38AC3A003CFAC0 /* ReadQrViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReadQrViewController.m; sourceTree = "<group>"; };
+		3AAACB681B38AC3A003CFAC0 /* ReadQrVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReadQrVC.h; sourceTree = "<group>"; };
+		3AAACB691B38AC3A003CFAC0 /* ReadQrVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReadQrVC.m; sourceTree = "<group>"; };
 		3AAACB6C1B38AC3A003CFAC0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3AAACB6E1B38AC3A003CFAC0 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		3AAACB711B38AC3A003CFAC0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -105,8 +105,8 @@
 			children = (
 				3AFF13571B4102B500CB589E /* ConfigurationVC.m */,
 				3AFF13561B4102B500CB589E /* ConfigurationVC.h */,
-				3AAACB681B38AC3A003CFAC0 /* ReadQrViewController.h */,
-				3AAACB691B38AC3A003CFAC0 /* ReadQrViewController.m */,
+				3AAACB681B38AC3A003CFAC0 /* ReadQrVC.h */,
+				3AAACB691B38AC3A003CFAC0 /* ReadQrVC.m */,
 				3ABD6C571B3A6AE400E4A292 /* ReadSomeQrCodeVC.h */,
 				3ABD6C581B3A6AE400E4A292 /* ReadSomeQrCodeVC.m */,
 				3ABD6C5A1B3A6B3800E4A292 /* ReadMyCardVC.h */,
@@ -257,7 +257,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A9C45941B3E114700A99482 /* XerocraftTabBarVC.m in Sources */,
-				3AAACB6A1B38AC3A003CFAC0 /* ReadQrViewController.m in Sources */,
+				3AAACB6A1B38AC3A003CFAC0 /* ReadQrVC.m in Sources */,
 				3ABD6C5C1B3A6B3800E4A292 /* ReadMyCardVC.m in Sources */,
 				3AFF13581B4102B500CB589E /* ConfigurationVC.m in Sources */,
 				3ABD6C591B3A6AE400E4A292 /* ReadSomeQrCodeVC.m in Sources */,

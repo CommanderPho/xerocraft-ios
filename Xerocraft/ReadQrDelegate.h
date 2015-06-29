@@ -8,12 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+@class ReadQrVC;
+
 @protocol ReadQrDelegate <NSObject>
 
 @required
 
 // Delegate should return YES if scanning for codes should continue, else NO.
-- (BOOL)processString:(NSString*)qrDataString;
+- (BOOL)qrReader:(ReadQrVC*)qrReader readString:(NSString*)qrDataString;
 
 @end
 

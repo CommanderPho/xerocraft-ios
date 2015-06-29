@@ -7,7 +7,7 @@
 //
 
 #import "ReadMyCardVC.h"
-#import "ReadQrViewController.h"
+#import "ReadQrVC.h"
 #import "AppState.h"
 
 @interface ReadMyCardVC ()
@@ -32,12 +32,12 @@
 {
     NSString * segueName = segue.identifier;
     if ([segueName isEqualToString: @"ReadQR"]) {
-        ReadQrViewController* qrVC = (ReadQrViewController *) [segue destinationViewController];
+        ReadQrVC* qrVC = (ReadQrVC *) [segue destinationViewController];
         qrVC.delegate = self;
     }
 }
 
-- (BOOL)processString:(NSString *)qrDataString {
+- (BOOL)qrReader:(ReadQrVC *)qrReader readString:(NSString *)qrDataString {
     
     if (!self.alreadyRead) {
         self.alreadyRead = YES;

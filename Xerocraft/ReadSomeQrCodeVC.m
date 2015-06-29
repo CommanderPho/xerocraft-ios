@@ -7,7 +7,7 @@
 //
 
 #import "ReadSomeQrCodeVC.h"
-#import "ReadQrViewController.h"
+#import "ReadQrVC.h"
 #import "AppState.h"
 
 @interface ReadSomeQrCodeVC ()
@@ -31,12 +31,12 @@
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     NSString * segueName = segue.identifier;
     if ([segueName isEqualToString: @"ReadQR"]) {
-        ReadQrViewController* qrVC = (ReadQrViewController*) [segue destinationViewController];
+        ReadQrVC* qrVC = (ReadQrVC*) [segue destinationViewController];
         qrVC.delegate = self;
     }
 }
 
-- (BOOL)processString:(NSString *)qrDataString {
+- (BOOL)qrReader:(ReadQrVC *)qrReader readString:(NSString *)qrDataString {
 
     // Ignore duplicate scans.
     if ([qrDataString isEqualToString:self.lastScanned]) return YES;
@@ -47,12 +47,10 @@
     }
 
     // If it's not a membership card string then it should be JSON.
-    NSData *jsonData = [qrDataString dataUsingEncoding:NSUTF8StringEncoding];
-    NSError *err = nil;
-    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&err];
+    NSObject *json = qrReader.json;
     
-    if (!err && !json) {
-        NSString *permitNumber = json[@"permit"];
+    if (json) {
+        NSString *permitNumber = [json valueForKey:@"permit"];
         if (permitNumber != nil) {
             //TODO: Log the permit read.  Flash "SCANNED!" message and beep.
             return YES; // I.e. DO continue scanning for QR codes, since user will be scanning batches of permits.
