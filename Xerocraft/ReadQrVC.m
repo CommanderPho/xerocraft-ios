@@ -16,6 +16,7 @@
 @property (nonatomic, assign) BOOL isReading;
 @property (nonatomic, strong) AVCaptureSession *captureSession;
 @property (nonatomic, strong) AVCaptureVideoPreviewLayer *videoPreviewLayer;
+@property (nonatomic, strong) AVAudioPlayer *audioPlayer;
 
 @end
 
@@ -36,6 +37,7 @@
     _captureSession = nil;
     _isReading = NO;
     _lastStringRead = nil;
+    [self loadBeepSound];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -74,6 +76,19 @@
     }
     else if (_isReading==newVal) {
         // NSLog(@"isReading setter called with %hhd when property is already %hhd", newVal, _isReading);
+    }
+}
+
+- (void)loadBeepSound {
+    NSURL *beepURL = [[NSBundle mainBundle] URLForResource:@"beep23" withExtension:@"mp3"];
+    NSError *error;
+    self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:beepURL error:&error];
+    if (error) {
+        NSLog(@"Could not play beep file.");
+        NSLog(@"%@", [error localizedDescription]);
+    }
+    else {
+        [self.audioPlayer prepareToPlay];
     }
 }
 
@@ -137,6 +152,7 @@
             // Ignore duplicate notifications:
             if ([metadataObj.stringValue isEqualToString:self.lastStringRead]) return;
             
+            [self.audioPlayer play];
             self.lastStringRead = metadataObj.stringValue;
             BOOL continueCapture = [self.delegate qrReader:self readString:metadataObj.stringValue];
             if (!continueCapture) self.isReading = NO;
