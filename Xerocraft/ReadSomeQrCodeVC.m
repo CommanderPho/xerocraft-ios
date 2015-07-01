@@ -9,8 +9,11 @@
 #import "ReadSomeQrCodeVC.h"
 #import "ReadQrVC.h"
 #import "AppState.h"
+#import "MemberDetailsTVC.h"
 
 @interface ReadSomeQrCodeVC ()
+
+@property (nonatomic, strong) NSDictionary *memberJson;
 
 @end
 
@@ -26,33 +29,48 @@
 }
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    NSString * segueName = segue.identifier;
+    NSString *segueName = segue.identifier;
     if ([segueName isEqualToString: @"ReadQR"]) {
         ReadQrVC* qrVC = (ReadQrVC*) [segue destinationViewController];
         qrVC.delegate = self;
     }
+    if ([segueName isEqualToString:@"MemberDetails"]) {
+        MemberDetailsTVC* tvc = (MemberDetailsTVC*)[segue destinationViewController];
+        tvc.memberJson = self.memberJson;
+    }
+}
+    // 192.168.1.101:8000/tasks/read-card/eNrBIc1XRSG9xDuNA1as5iF5c5ufZkTe
+- (BOOL)handleMemberCardQR:(NSString*)memberCardStr {
+    NSString * urlStr = [NSString stringWithFormat:@"http://%@/read-card/%@", AppState.sharedInstance.server, memberCardStr];
+    NSURL *url = [NSURL URLWithString:urlStr];
+    NSData *data = [NSData dataWithContentsOfURL:url];
+    NSError *error = nil;
+    self.memberJson = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self performSegueWithIdentifier:@"MemberDetails" sender:nil];
+    });
+    return NO; // I.e. do not continue scanning for QR codes.
+}
+
+- (BOOL)handleJsonData:(NSDictionary*)jsonData {
+    if (jsonData) {
+        NSString *permitNumber = [jsonData valueForKey:@"permit"];
+        if (permitNumber != nil) {
+            //TODO: Log the permit read.  Flash "SCANNED!" message and beep.
+        }
+    }
+    return YES; // I.e. DO continue scanning for QR codes, since user will be scanning batches of permits.
 }
 
 - (BOOL)qrReader:(ReadQrVC *)qrReader readString:(NSString *)qrDataString {
     
     if ([AppState isValidCardString:qrDataString]) {
-        //TODO: Get info from server then seque to table view of member.
-        return NO; // I.e. do not continue scanning for QR codes.
+        return [self handleMemberCardQR:qrDataString];
     }
-
-    // If it's not a membership card string then it should be JSON.
-    NSObject *json = qrReader.json;
-    
-    if (json) {
-        NSString *permitNumber = [json valueForKey:@"permit"];
-        if (permitNumber != nil) {
-            //TODO: Log the permit read.  Flash "SCANNED!" message and beep.
-            return YES; // I.e. DO continue scanning for QR codes, since user will be scanning batches of permits.
-        }
+    else {
+        // If it's not a membership card string then it should be JSON.
+        return [self handleJsonData:(NSDictionary*)qrReader.json];
     }
-    
-    // Code isn't json or is a sort of json that's not appropriate for this app or this scene.
-    return YES;
 }
 
 @end

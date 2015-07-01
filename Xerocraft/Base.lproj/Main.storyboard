@@ -53,8 +53,7 @@
                     <navigationItem key="navigationItem" title="Read Card or Permit" id="1hk-or-ctZ"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
-                        <segue destination="0tI-3I-tNT" kind="show" identifier="Member Details" id="U4N-Zs-F5l"/>
-                        <segue destination="aSf-cK-Y99" kind="show" identifier="Permit Details" id="yBB-EV-k94"/>
+                        <segue destination="0tI-3I-tNT" kind="show" identifier="MemberDetails" id="U4N-Zs-F5l"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oqD-fE-f4F" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -64,13 +63,13 @@
         <!--Member Details-->
         <scene sceneID="NQY-KF-9cA">
             <objects>
-                <tableViewController title="Member Details" id="0tI-3I-tNT" sceneMemberID="viewController">
+                <tableViewController title="Member Details" id="0tI-3I-tNT" customClass="MemberDetailsTVC" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="AHz-3k-8YV">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="H2L-KJ-ar7">
+                            <tableViewCell contentMode="scaleToFill" restorationIdentifier="DetailCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="DetailCell" id="H2L-KJ-ar7">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="H2L-KJ-ar7" id="Ows-HF-4ro">
                                     <autoresizingMask key="autoresizingMask"/>
@@ -83,10 +82,13 @@
                         </connections>
                     </tableView>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                    <connections>
+                        <outlet property="detailTableView" destination="AHz-3k-8YV" id="44U-E0-V0J"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SIg-oK-Jhj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2529" y="218"/>
+            <point key="canvasLocation" x="2502" y="507"/>
         </scene>
         <!--Read QR-->
         <scene sceneID="ufC-wZ-h7g">
@@ -138,33 +140,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1986" y="1374"/>
-        </scene>
-        <!--Permit Details-->
-        <scene sceneID="akV-7g-dcV">
-            <objects>
-                <tableViewController title="Permit Details" id="aSf-cK-Y99" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="pr1-6q-iRs">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="2mH-3r-DQ7">
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2mH-3r-DQ7" id="C7m-g6-jgQ">
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="aSf-cK-Y99" id="Lkl-QB-L1i"/>
-                            <outlet property="delegate" destination="aSf-cK-Y99" id="FYb-Re-49e"/>
-                        </connections>
-                    </tableView>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="jqa-RH-XhQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2529" y="790"/>
         </scene>
         <!--Read My Card-->
         <scene sceneID="yOK-0X-lB1">
@@ -533,7 +508,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DEBUG" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dgG-se-WPn">
-                                <rect key="frame" x="120" y="30" width="80" height="21"/>
+                                <rect key="frame" x="120" y="50" width="80" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="aOh-om-RpF"/>
                                     <constraint firstAttribute="height" constant="21" id="kQu-ea-3eK"/>
@@ -561,7 +536,7 @@
                             <constraint firstAttribute="trailingMargin" secondItem="gqG-51-v1E" secondAttribute="trailing" constant="127" id="7TN-z1-JwP"/>
                             <constraint firstAttribute="centerX" secondItem="MfO-fM-A53" secondAttribute="centerX" id="7tQ-9s-RBo"/>
                             <constraint firstAttribute="centerY" secondItem="MfO-fM-A53" secondAttribute="centerY" id="IMX-sH-Ffi"/>
-                            <constraint firstItem="dgG-se-WPn" firstAttribute="top" secondItem="6OZ-FN-2nt" secondAttribute="bottom" constant="10" id="aaf-XU-J0O"/>
+                            <constraint firstItem="dgG-se-WPn" firstAttribute="top" secondItem="6OZ-FN-2nt" secondAttribute="bottom" constant="30" id="aaf-XU-J0O"/>
                             <constraint firstAttribute="centerX" secondItem="dgG-se-WPn" secondAttribute="centerX" id="ckV-uX-gDr"/>
                             <constraint firstItem="gqG-51-v1E" firstAttribute="leading" secondItem="nvM-Qw-swT" secondAttribute="leadingMargin" constant="121" id="jrq-TP-yMs"/>
                         </constraints>

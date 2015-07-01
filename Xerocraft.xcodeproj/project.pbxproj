@@ -21,6 +21,7 @@
 		3ABD6C5C1B3A6B3800E4A292 /* ReadMyCardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ABD6C5B1B3A6B3800E4A292 /* ReadMyCardVC.m */; };
 		3ABD6C621B3A6BE900E4A292 /* ReadSiteConfigVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ABD6C611B3A6BE900E4A292 /* ReadSiteConfigVC.m */; };
 		3ADDABBF1B43502500E0D18E /* beep23.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3ADDABBE1B43502500E0D18E /* beep23.mp3 */; };
+		3ADDABC21B435CC600E0D18E /* MemberDetailsTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ADDABC11B435CC600E0D18E /* MemberDetailsTVC.m */; };
 		3AFF13581B4102B500CB589E /* ConfigurationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AFF13571B4102B500CB589E /* ConfigurationVC.m */; };
 /* End PBXBuildFile section */
 
@@ -62,6 +63,8 @@
 		3ABD6C611B3A6BE900E4A292 /* ReadSiteConfigVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReadSiteConfigVC.m; sourceTree = "<group>"; };
 		3ABD6C661B3C7C7C00E4A292 /* ReadQrDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReadQrDelegate.h; sourceTree = "<group>"; };
 		3ADDABBE1B43502500E0D18E /* beep23.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = beep23.mp3; sourceTree = "<group>"; };
+		3ADDABC01B435CC600E0D18E /* MemberDetailsTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemberDetailsTVC.h; sourceTree = "<group>"; };
+		3ADDABC11B435CC600E0D18E /* MemberDetailsTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MemberDetailsTVC.m; sourceTree = "<group>"; };
 		3AFF13561B4102B500CB589E /* ConfigurationVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfigurationVC.h; sourceTree = "<group>"; };
 		3AFF13571B4102B500CB589E /* ConfigurationVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigurationVC.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -117,6 +120,8 @@
 				3ABD6C611B3A6BE900E4A292 /* ReadSiteConfigVC.m */,
 				3A9C45891B3CD92100A99482 /* HomeVC.h */,
 				3A9C458A1B3CD92100A99482 /* HomeVC.m */,
+				3ADDABC01B435CC600E0D18E /* MemberDetailsTVC.h */,
+				3ADDABC11B435CC600E0D18E /* MemberDetailsTVC.m */,
 				3A9C45921B3E114700A99482 /* XerocraftTabBarVC.h */,
 				3A9C45931B3E114700A99482 /* XerocraftTabBarVC.m */,
 				3AAACB6B1B38AC3A003CFAC0 /* Main.storyboard */,
@@ -269,6 +274,7 @@
 				3ABD6C621B3A6BE900E4A292 /* ReadSiteConfigVC.m in Sources */,
 				3AAACB671B38AC3A003CFAC0 /* AppDelegate.m in Sources */,
 				3AAACB641B38AC3A003CFAC0 /* main.m in Sources */,
+				3ADDABC21B435CC600E0D18E /* MemberDetailsTVC.m in Sources */,
 				3A9C458E1B3DD50000A99482 /* AppState.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
