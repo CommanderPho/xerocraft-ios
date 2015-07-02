@@ -41,7 +41,7 @@
     NSUInteger topCount = self.memberJson.count;
     NSArray *tags = [self.memberJson valueForKey:@"tags"];
     NSUInteger tagCount = tags.count;
-    return tagCount + 2;
+    return tagCount + 3;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -56,7 +56,9 @@
             
     else if (indexPath.row == 1) str = [self.memberJson valueForKey:@"username"];
 
-    else str = tags[indexPath.row -2];
+    else if (indexPath.row == 2) str = [self.memberJson valueForKey:@"email"];
+
+    else str = tags[indexPath.row - 3];
     
     cell.textLabel.text = str;
     return cell;

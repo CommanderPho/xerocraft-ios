@@ -49,7 +49,7 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [self performSegueWithIdentifier:@"MemberDetails" sender:nil];
     });
-    return NO; // I.e. do not continue scanning for QR codes.
+    return NO;
 }
 
 - (BOOL)handleJsonData:(NSDictionary*)jsonData {

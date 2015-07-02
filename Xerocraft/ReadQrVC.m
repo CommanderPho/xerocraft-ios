@@ -70,6 +70,7 @@
     else if (_isReading==NO && newVal==YES) {
         dispatch_async(dispatch_get_main_queue(), ^{
             _isReading = YES;
+            self.lastStringRead = nil;
             [self startReading];
             [self.view setNeedsDisplay];
         });
