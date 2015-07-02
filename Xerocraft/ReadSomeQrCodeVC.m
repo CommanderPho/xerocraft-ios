@@ -43,12 +43,27 @@
 - (BOOL)handleMemberCardQR:(NSString*)memberCardStr {
     NSString * urlStr = [NSString stringWithFormat:@"http://%@/read-card/%@", AppState.sharedInstance.server, memberCardStr];
     NSURL *url = [NSURL URLWithString:urlStr];
-    NSData *data = [NSData dataWithContentsOfURL:url];
-    NSError *error = nil;
-    self.memberJson = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self performSegueWithIdentifier:@"MemberDetails" sender:nil];
-    });
+    
+    NSURLSession *session = [NSURLSession sharedSession];
+    session.configuration.timeoutIntervalForRequest = 2;
+    NSURLSessionDataTask *task =
+        [session
+            dataTaskWithURL:url
+            completionHandler:
+                ^(NSData *data, NSURLResponse *response, NSError *error){
+                    dispatch_async(dispatch_get_main_queue(),^{
+                        if (data && !error) {
+                            [self performSegueWithIdentifier:@"MemberDetails" sender:nil];
+                        }
+                        else {
+                            UIAlertView *view = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Couldn't connect to server." delegate:nil cancelButtonTitle:@"Continue" otherButtonTitles:nil];
+                            [view show];
+                            
+                        }
+                    });
+                }
+        ];
+    [task resume];
     return NO;
 }
 
