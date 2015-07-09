@@ -41,7 +41,7 @@
 }
     // 192.168.1.101:8000/tasks/read-card/eNrBIc1XRSG9xDuNA1as5iF5c5ufZkTe
 - (BOOL)handleMemberCardQR:(NSString*)memberCardStr {
-    NSString * urlStr = [NSString stringWithFormat:@"http://%@/read-card/%@", AppState.sharedInstance.server, memberCardStr];
+    NSString * urlStr = [NSString stringWithFormat:@"http://%@/read-card/%@/", AppState.sharedInstance.server, memberCardStr];
     NSURL *url = [NSURL URLWithString:urlStr];
     
     NSURLSession *session = [NSURLSession sharedSession];
@@ -50,21 +50,31 @@
         [session
             dataTaskWithURL:url
             completionHandler:
-                ^(NSData *data, NSURLResponse *response, NSError *error){
+                ^(NSData *data, NSURLResponse *response, NSError *connectError){
+                    NSError* parseError = nil;
+                    self.memberJson = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&parseError];
+                    NSString *serverError = [self.memberJson objectForKey:@"error"];
                     dispatch_async(dispatch_get_main_queue(),^{
-                        if (data && !error) {
-                            [self performSegueWithIdentifier:@"MemberDetails" sender:nil];
+                        UIAlertView *alert = nil;
+                        if (connectError) {
+                            alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Couldn't connect to server." delegate:nil cancelButtonTitle:@"Continue" otherButtonTitles:nil, nil];
+                        }
+                        else if (parseError) {
+                            alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Couldn't parse response." delegate:nil cancelButtonTitle:@"Continue" otherButtonTitles:nil, nil];
+                        }
+                        else if (serverError) {
+                            alert = [[UIAlertView alloc] initWithTitle:@"Server Error" message:serverError delegate:nil cancelButtonTitle:@"Continue" otherButtonTitles:nil, nil];
                         }
                         else {
-                            UIAlertView *view = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Couldn't connect to server." delegate:nil cancelButtonTitle:@"Continue" otherButtonTitles:nil];
-                            [view show];
-                            
+                            [self performSegueWithIdentifier:@"MemberDetails" sender:nil];
                         }
+                        if (alert) [alert show];
+                        
                     });
                 }
         ];
     [task resume];
-    return NO;
+    return YES; //REVIEW: Maybe different results for different errors and success.
 }
 
 - (BOOL)handleJsonData:(NSDictionary*)jsonData {
