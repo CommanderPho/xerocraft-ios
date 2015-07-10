@@ -11,6 +11,7 @@
 static NSString* const kKeyForSiteName = @"com.adrianboyko.xerocraft.Site";
 static NSString* const kKeyForServer = @"com.adrianboyko.xerocraft.Server";
 static NSString* const kKeyForMyCardString = @"com.adrianboyko.xerocraft.MyCardString";
+static NSString* const kKeyForMostRecentLocation = @"com.adrianboyko.xerocraft.MostRecentLocation";
 
 @implementation AppState
 
@@ -77,5 +78,16 @@ static NSString* const kKeyForMyCardString = @"com.adrianboyko.xerocraft.MyCardS
     else [def setObject:myCardString forKey:kKeyForMyCardString];
 }
 
+// - - - - - - - - - - - - - - - - - - - - - - - - - - MOST RECENT LOCATION
+
+- (NSNumber*) mostRecentLocation {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:kKeyForMostRecentLocation];
+}
+
+- (void)setMostRecentLocation:(NSNumber *)mostRecentLocation {
+    NSUserDefaults* def = NSUserDefaults.standardUserDefaults;
+    if (mostRecentLocation == nil) [def removeObjectForKey:kKeyForMostRecentLocation];
+    else [def setObject:mostRecentLocation forKey:kKeyForMostRecentLocation];
+}
 
 @end

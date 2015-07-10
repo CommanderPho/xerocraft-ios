@@ -38,7 +38,6 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSUInteger topCount = self.memberJson.count;
     NSArray *tags = [self.memberJson valueForKey:@"tags"];
     NSUInteger tagCount = tags.count;
     return tagCount + 3;

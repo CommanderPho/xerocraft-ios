@@ -29,30 +29,34 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Permit 9999" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vKY-YC-TKq">
+                                <rect key="frame" x="66" y="190" width="188" height="100"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="Gwh-FM-5je"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="vKY-YC-TKq" firstAttribute="leading" secondItem="lG1-oI-kqN" secondAttribute="leadingMargin" constant="50" id="1q1-vg-Oz3"/>
                             <constraint firstItem="IOK-W2-RV2" firstAttribute="top" secondItem="w5D-d3-4Ni" secondAttribute="bottom" constant="8" symbolic="YES" id="8P7-v1-jcy"/>
                             <constraint firstItem="vjQ-vl-V4a" firstAttribute="leading" secondItem="lG1-oI-kqN" secondAttribute="leadingMargin" constant="8" id="ETn-hC-mEC"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="vKY-YC-TKq" secondAttribute="trailing" constant="50" id="LJt-6F-z1y"/>
                             <constraint firstItem="vjQ-vl-V4a" firstAttribute="top" secondItem="cJn-KO-a3P" secondAttribute="bottom" constant="8" id="NoO-fX-auw"/>
                             <constraint firstItem="w5D-d3-4Ni" firstAttribute="top" secondItem="vjQ-vl-V4a" secondAttribute="bottom" constant="8" symbolic="YES" id="S4w-Vj-1KO"/>
                             <constraint firstAttribute="centerX" secondItem="w5D-d3-4Ni" secondAttribute="centerX" id="aFJ-6R-F51"/>
-                            <constraint firstAttribute="bottomMargin" secondItem="vjQ-vl-V4a" secondAttribute="bottom" id="hc6-h3-ylH"/>
-                            <constraint firstItem="vjQ-vl-V4a" firstAttribute="centerX" secondItem="w5D-d3-4Ni" secondAttribute="centerX" id="hdd-MA-Vpa"/>
-                            <constraint firstAttribute="bottomMargin" secondItem="vjQ-vl-V4a" secondAttribute="bottom" constant="30" id="rfU-J3-FUK"/>
+                            <constraint firstAttribute="centerY" secondItem="vKY-YC-TKq" secondAttribute="centerY" id="qkw-7l-dVE"/>
                             <constraint firstAttribute="trailingMargin" secondItem="vjQ-vl-V4a" secondAttribute="trailing" constant="8" id="wdZ-BL-zCT"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="hc6-h3-ylH"/>
-                                <exclude reference="hdd-MA-Vpa"/>
-                                <exclude reference="rfU-J3-FUK"/>
-                            </mask>
-                        </variation>
                     </view>
                     <navigationItem key="navigationItem" title="Read Card or Permit" id="1hk-or-ctZ"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
+                        <outlet property="flashLabel" destination="vKY-YC-TKq" id="pEG-l9-YC1"/>
                         <segue destination="0tI-3I-tNT" kind="show" identifier="MemberDetails" id="U4N-Zs-F5l"/>
                     </connections>
                 </viewController>
@@ -449,7 +453,7 @@
                                             <constraint firstAttribute="height" constant="21" id="3tb-3d-p7j"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="CourierNewPSMT" family="Courier New" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&lt;card string 4&gt;" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xhi-aX-c5A">
@@ -458,7 +462,7 @@
                                             <constraint firstAttribute="height" constant="21" id="9Mj-gD-v0R"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="CourierNewPSMT" family="Courier New" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -518,7 +522,7 @@
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="42" id="yfe-1w-jcb"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                                 <variation key="default">
                                     <mask key="constraints">

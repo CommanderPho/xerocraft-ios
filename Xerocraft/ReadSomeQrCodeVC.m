@@ -15,6 +15,8 @@
 
 @property (nonatomic, strong) NSDictionary *memberJson;
 
+@property (weak, nonatomic) IBOutlet UILabel *flashLabel;
+
 @end
 
 @implementation ReadSomeQrCodeVC
@@ -39,50 +41,92 @@
         tvc.memberJson = self.memberJson;
     }
 }
-    // 192.168.1.101:8000/tasks/read-card/eNrBIc1XRSG9xDuNA1as5iF5c5ufZkTe
-- (BOOL)handleMemberCardQR:(NSString*)memberCardStr {
-    NSString * urlStr = [NSString stringWithFormat:@"http://%@/read-card/%@/", AppState.sharedInstance.server, memberCardStr];
-    NSURL *url = [NSURL URLWithString:urlStr];
+
+
+typedef void(^ActionBlock)();
+
+- (void) talkToServer:(NSString*)urlStr successAction:(ActionBlock)block{
     
+    //TODO: This doesn't deal with 404, etc.
+    
+    NSURL *url = [NSURL URLWithString:urlStr];
     NSURLSession *session = [NSURLSession sharedSession];
     session.configuration.timeoutIntervalForRequest = 2;
     NSURLSessionDataTask *task =
-        [session
-            dataTaskWithURL:url
-            completionHandler:
-                ^(NSData *data, NSURLResponse *response, NSError *connectError){
-                    NSError* parseError = nil;
-                    self.memberJson = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&parseError];
-                    NSString *serverError = [self.memberJson objectForKey:@"error"];
-                    dispatch_async(dispatch_get_main_queue(),^{
-                        UIAlertView *alert = nil;
-                        if (connectError) {
-                            alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Couldn't connect to server." delegate:nil cancelButtonTitle:@"Continue" otherButtonTitles:nil, nil];
-                        }
-                        else if (parseError) {
-                            alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Couldn't parse response." delegate:nil cancelButtonTitle:@"Continue" otherButtonTitles:nil, nil];
-                        }
-                        else if (serverError) {
-                            alert = [[UIAlertView alloc] initWithTitle:@"Server Error" message:serverError delegate:nil cancelButtonTitle:@"Continue" otherButtonTitles:nil, nil];
-                        }
-                        else {
-                            [self performSegueWithIdentifier:@"MemberDetails" sender:nil];
-                        }
-                        if (alert) [alert show];
-                        
-                    });
-                }
-        ];
+    [session
+     dataTaskWithURL:url
+     completionHandler:
+     ^(NSData *data, NSURLResponse *response, NSError *connectError){
+         NSError* parseError = nil;
+         self.memberJson = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&parseError];
+         NSString *serverError = [self.memberJson objectForKey:@"error"];
+         dispatch_async(dispatch_get_main_queue(),^{
+             UIAlertView *alert = nil;
+             if (connectError) {
+                 alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Couldn't connect to server." delegate:nil cancelButtonTitle:@"Continue" otherButtonTitles:nil, nil];
+             }
+             else if (parseError) {
+                 alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Couldn't parse response." delegate:nil cancelButtonTitle:@"Continue" otherButtonTitles:nil, nil];
+             }
+             else if (serverError) {
+                 alert = [[UIAlertView alloc] initWithTitle:@"Server Error" message:serverError delegate:nil cancelButtonTitle:@"Continue" otherButtonTitles:nil, nil];
+             }
+             else {
+                 assert(alert == nil);
+                 if (block) block();
+             }
+             if (alert) [alert show];
+             
+         });
+     }
+     ];
     [task resume];
-    return YES; //REVIEW: Maybe different results for different errors and success.
+}
+
+- (void)flashMessage:(NSString*)msg {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.flashLabel.text = msg;
+        self.flashLabel.alpha = 1;
+        void(^animations)(void) = ^{self.flashLabel.alpha = 0;};
+        [UIView animateWithDuration:2.0
+            delay:0
+            options:UIViewAnimationCurveEaseOut
+            animations:animations
+            completion:nil];
+    });
+}
+
+- (BOOL)handleMemberCardQR:(NSString*)memberCardStr {
+    NSString * urlStr = [NSString stringWithFormat:@"http://%@/tasks/read-card/%@/", AppState.sharedInstance.server, memberCardStr];
+    [self talkToServer:urlStr successAction:^{
+        [self performSegueWithIdentifier:@"MemberDetails" sender:nil];
+    }];
+    return YES;
+}
+
+- (BOOL)handleLocationQR:(NSDictionary*)jsonData withLocNum:(NSInteger)locNum {
+    AppState.sharedInstance.mostRecentLocation = @(locNum);
+    [self flashMessage: [NSString stringWithFormat:@"Location\n#%04d\nnoted",locNum]];
+    return YES;
+}
+
+- (BOOL)handlePermitQR:(NSDictionary*)jsonData withPermitNum:(NSInteger)permitNum {
+    AppState *state = AppState.sharedInstance;
+    NSString * urlStr = [NSString stringWithFormat:@"http://%@/inventory/note-permit-scan/%@_%@/", state.server, @(permitNum), state.mostRecentLocation];
+    [self talkToServer:urlStr successAction:^{
+        [self flashMessage: [NSString stringWithFormat:@"Permit %04d at\nlocation %04d\nnoted", permitNum, state.mostRecentLocation.intValue]];
+    }];
+    return YES;
 }
 
 - (BOOL)handleJsonData:(NSDictionary*)jsonData {
     if (jsonData) {
-        NSString *permitNumber = [jsonData valueForKey:@"permit"];
-        if (permitNumber != nil) {
-            //TODO: Log the permit read.  Flash "SCANNED!" message and beep.
-        }
+        
+        NSString* locNumStr = [jsonData objectForKey:@"loc"];
+        if (locNumStr) [self handleLocationQR:jsonData withLocNum:locNumStr.integerValue];
+        
+        NSString* permitNumStr = [jsonData objectForKey:@"permit"];
+        if (permitNumStr) [self handlePermitQR:jsonData withPermitNum:permitNumStr.integerValue];
     }
     return YES; // I.e. DO continue scanning for QR codes, since user will be scanning batches of permits.
 }

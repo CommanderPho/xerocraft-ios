@@ -16,5 +16,6 @@
 @property (nonatomic, copy) NSString* myCardString;
 @property (nonatomic, copy) NSString* server;
 @property (nonatomic, copy) NSString* siteName;
+@property (nonatomic, copy) NSNumber* mostRecentLocation;
 
 @end
