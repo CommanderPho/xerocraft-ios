@@ -80,6 +80,8 @@ static NSString* const kKeyForMostRecentLocation = @"com.adrianboyko.xerocraft.M
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - MOST RECENT LOCATION
 
+//TODO: Rename mostRecentLocation -> locationCurrentlyOpen
+
 - (NSNumber*) mostRecentLocation {
     return [[NSUserDefaults standardUserDefaults] objectForKey:kKeyForMostRecentLocation];
 }

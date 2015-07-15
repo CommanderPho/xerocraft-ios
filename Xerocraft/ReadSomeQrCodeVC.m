@@ -10,19 +10,32 @@
 #import "ReadQrVC.h"
 #import "AppState.h"
 #import "MemberDetailsTVC.h"
+#import "PermitDetailsVC.h"
 
 @interface ReadSomeQrCodeVC ()
 
 @property (nonatomic, strong) NSDictionary *memberJson;
+@property (nonatomic, strong) NSDictionary *permitJson;
 
-@property (weak, nonatomic) IBOutlet UILabel *flashLabel;
+@property (weak, nonatomic) IBOutlet UIButton *locationButton;
+@property (weak, nonatomic) IBOutlet UIButton *permitButton;
+
 
 @end
 
 @implementation ReadSomeQrCodeVC
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
+    _memberJson = nil;
+    _permitJson = nil;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    self.permitButton.alpha = 0;
+    NSNumber *locObj = AppState.sharedInstance.mostRecentLocation;
+    if (locObj != nil) [self handleLocationQR:locObj.integerValue];
+    else self.locationButton.hidden = YES;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -31,19 +44,29 @@
 }
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
+    // There might be a permit button animation in progress, so short it.
+    [self.permitButton.layer removeAllAnimations];
+    self.permitButton.alpha = 0.0;
+    
     NSString *segueName = segue.identifier;
     if ([segueName isEqualToString: @"ReadQR"]) {
-        ReadQrVC* qrVC = (ReadQrVC*) [segue destinationViewController];
+        ReadQrVC* qrVC = (ReadQrVC*)[segue destinationViewController];
         qrVC.delegate = self;
     }
     if ([segueName isEqualToString:@"MemberDetails"]) {
-        MemberDetailsTVC* tvc = (MemberDetailsTVC*)[segue destinationViewController];
-        tvc.memberJson = self.memberJson;
+        MemberDetailsTVC* mdVC = (MemberDetailsTVC*)[segue destinationViewController];
+        mdVC.memberJson = self.memberJson;
+    }
+    if ([segueName isEqualToString: @"PermitDetails"]) {
+        PermitDetailsVC* permVC = (PermitDetailsVC*)[segue destinationViewController];
+        permVC.permitOfInterest = self.permitJson;
     }
 }
 
+#pragma mark Server Communication
 
-typedef void(^ActionBlock)();
+typedef void(^ActionBlock)(NSDictionary*);
 
 - (void) talkToServer:(NSString*)urlStr successAction:(ActionBlock)block{
     
@@ -58,8 +81,8 @@ typedef void(^ActionBlock)();
      completionHandler:
      ^(NSData *data, NSURLResponse *response, NSError *connectError){
          NSError* parseError = nil;
-         self.memberJson = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&parseError];
-         NSString *serverError = [self.memberJson objectForKey:@"error"];
+         NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&parseError];
+         NSString *serverError = [json objectForKey:@"error"];
          dispatch_async(dispatch_get_main_queue(),^{
              UIAlertView *alert = nil;
              if (connectError) {
@@ -73,7 +96,7 @@ typedef void(^ActionBlock)();
              }
              else {
                  assert(alert == nil);
-                 if (block) block();
+                 if (block) block(json);
              }
              if (alert) [alert show];
              
@@ -83,52 +106,68 @@ typedef void(^ActionBlock)();
     [task resume];
 }
 
-- (void)flashMessage:(NSString*)msg {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self.flashLabel.text = msg;
-        self.flashLabel.alpha = 1;
-        void(^animations)(void) = ^{self.flashLabel.alpha = 0;};
-        [UIView animateWithDuration:2.0
-            delay:0
-            options:UIViewAnimationCurveEaseOut
-            animations:animations
-            completion:nil];
-    });
-}
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#pragma mark QR Handlers
 
 - (BOOL)handleMemberCardQR:(NSString*)memberCardStr {
     NSString * urlStr = [NSString stringWithFormat:@"http://%@/tasks/read-card/%@/", AppState.sharedInstance.server, memberCardStr];
-    [self talkToServer:urlStr successAction:^{
+    [self talkToServer:urlStr successAction:^(NSDictionary *json) {
+        self.memberJson = json;
         [self performSegueWithIdentifier:@"MemberDetails" sender:nil];
     }];
     return YES;
 }
 
-- (BOOL)handleLocationQR:(NSDictionary*)jsonData withLocNum:(NSInteger)locNum {
+- (BOOL)handleLocationQR:(NSInteger)locNum {
+    if (AppState.sharedInstance.mostRecentLocation != nil) {
+        [self donePermitsForLocation];
+    }
     AppState.sharedInstance.mostRecentLocation = @(locNum);
-    [self flashMessage: [NSString stringWithFormat:@"Location\n#%04d\nnoted",locNum]];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        int loc = AppState.sharedInstance.mostRecentLocation.integerValue;
+        [self.locationButton setTitle:[NSString stringWithFormat:@"L%04d",loc] forState:UIControlStateNormal];
+        self.locationButton.hidden = NO;
+    });
     return YES;
 }
 
-- (BOOL)handlePermitQR:(NSDictionary*)jsonData withPermitNum:(NSInteger)permitNum {
-    AppState *state = AppState.sharedInstance;
-    NSString * urlStr = [NSString stringWithFormat:@"http://%@/inventory/note-permit-scan/%@_%@/", state.server, @(permitNum), state.mostRecentLocation];
-    [self talkToServer:urlStr successAction:^{
-        [self flashMessage: [NSString stringWithFormat:@"Permit %04d at\nlocation %04d\nnoted", permitNum, state.mostRecentLocation.intValue]];
+
+- (BOOL)handlePermitQR:(NSDictionary*)jsonData withPermitNum:(NSUInteger)permitNum {
+
+    NSString *server = AppState.sharedInstance.server;
+    NSNumber *mostRecentLoc = AppState.sharedInstance.mostRecentLocation;
+    
+    NSString *urlStr1 = [NSString stringWithFormat:@"http://%@/inventory/get-permit-details/%@/", server, @(permitNum)];
+    [self talkToServer:urlStr1 successAction:^(NSDictionary *json){
+        
+        self.permitJson = json;
+
+        if (AppState.sharedInstance.mostRecentLocation != nil) {
+            // The user is taking inventory
+
+            //TODO: Was permit was most recently scanned at a different location.  If so, ask "did you forget to scan a location QR?"
+            
+            // Inform backend server:
+            NSString *urlStr2 = [NSString stringWithFormat:@"http://%@/inventory/note-permit-scan/%@_%@/", server, @(permitNum), mostRecentLoc];
+            [self talkToServer:urlStr2 successAction:nil];
+            
+            // Show the permit number in the GUI, for a few seconds:
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.permitButton setTitle:[NSString stringWithFormat:@"P%04lu", (unsigned long)permitNum] forState:UIControlStateNormal];
+                self.permitButton.alpha = 1;
+                // Jumping through some hoops with animation to enable user interaction. Final value for alpha ramp cannot be 0.0.
+                NSUInteger opts = UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionCurveEaseOut ;
+                [UIView animateWithDuration:1.0 delay:3.0 options:opts animations:^{self.permitButton.alpha=0.05;} completion:^(BOOL x){self.permitButton.alpha=0.0;}];
+            });
+        }
+        else {
+            // The user wants permit details.
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self performSegueWithIdentifier:@"PermitDetails" sender:self];
+            });
+        }
     }];
     return YES;
-}
-
-- (BOOL)handleJsonData:(NSDictionary*)jsonData {
-    if (jsonData) {
-        
-        NSString* locNumStr = [jsonData objectForKey:@"loc"];
-        if (locNumStr) [self handleLocationQR:jsonData withLocNum:locNumStr.integerValue];
-        
-        NSString* permitNumStr = [jsonData objectForKey:@"permit"];
-        if (permitNumStr) [self handlePermitQR:jsonData withPermitNum:permitNumStr.integerValue];
-    }
-    return YES; // I.e. DO continue scanning for QR codes, since user will be scanning batches of permits.
 }
 
 - (BOOL)qrReader:(ReadQrVC *)qrReader readString:(NSString *)qrDataString {
@@ -137,9 +176,32 @@ typedef void(^ActionBlock)();
         return [self handleMemberCardQR:qrDataString];
     }
     else {
-        // If it's not a membership card string then it should be JSON.
-        return [self handleJsonData:(NSDictionary*)qrReader.json];
+        NSDictionary *json = (NSDictionary*)qrReader.json;
+        NSString* locNumStr = [json objectForKey:@"loc"];
+        if (locNumStr) return [self handleLocationQR:locNumStr.integerValue];
+        
+        NSString* permitNumStr = [json objectForKey:@"permit"];
+        if (permitNumStr) return [self handlePermitQR:json withPermitNum:permitNumStr.integerValue];
     }
+    return YES;
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#pragma mark Location Start/End
+
+- (void)startPermitsForLocation {
+    // TODO: Initialize batch compare.
+}
+
+- (void)donePermitsForLocation {
+    NSUInteger locNum = AppState.sharedInstance.mostRecentLocation.unsignedIntegerValue;
+    AppState.sharedInstance.mostRecentLocation = nil;
+    //TODO: Do batch compare and set vanished permits to unknown location.
+}
+
+- (IBAction)LocationTouchUp:(UIButton *)sender {
+    self.locationButton.hidden = YES;
+    [self donePermitsForLocation];
 }
 
 @end

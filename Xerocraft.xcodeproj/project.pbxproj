@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A0BAD791B547B3800A1E102 /* PermitDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A0BAD781B547B3800A1E102 /* PermitDetailsVC.m */; };
 		3A9C458B1B3CD92100A99482 /* HomeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9C458A1B3CD92100A99482 /* HomeVC.m */; };
 		3A9C458E1B3DD50000A99482 /* AppState.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9C458D1B3DD50000A99482 /* AppState.m */; };
 		3A9C45941B3E114700A99482 /* XerocraftTabBarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9C45931B3E114700A99482 /* XerocraftTabBarVC.m */; };
@@ -36,6 +37,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3A0BAD771B547B3800A1E102 /* PermitDetailsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PermitDetailsVC.h; sourceTree = "<group>"; };
+		3A0BAD781B547B3800A1E102 /* PermitDetailsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PermitDetailsVC.m; sourceTree = "<group>"; };
 		3A9C45891B3CD92100A99482 /* HomeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeVC.h; sourceTree = "<group>"; };
 		3A9C458A1B3CD92100A99482 /* HomeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeVC.m; sourceTree = "<group>"; };
 		3A9C458C1B3DD50000A99482 /* AppState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppState.h; sourceTree = "<group>"; };
@@ -122,6 +125,8 @@
 				3A9C458A1B3CD92100A99482 /* HomeVC.m */,
 				3ADDABC01B435CC600E0D18E /* MemberDetailsTVC.h */,
 				3ADDABC11B435CC600E0D18E /* MemberDetailsTVC.m */,
+				3A0BAD771B547B3800A1E102 /* PermitDetailsVC.h */,
+				3A0BAD781B547B3800A1E102 /* PermitDetailsVC.m */,
 				3A9C45921B3E114700A99482 /* XerocraftTabBarVC.h */,
 				3A9C45931B3E114700A99482 /* XerocraftTabBarVC.m */,
 				3AAACB6B1B38AC3A003CFAC0 /* Main.storyboard */,
@@ -265,6 +270,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A0BAD791B547B3800A1E102 /* PermitDetailsVC.m in Sources */,
 				3A9C45941B3E114700A99482 /* XerocraftTabBarVC.m in Sources */,
 				3AAACB6A1B38AC3A003CFAC0 /* ReadQrVC.m in Sources */,
 				3ABD6C5C1B3A6B3800E4A292 /* ReadMyCardVC.m in Sources */,
