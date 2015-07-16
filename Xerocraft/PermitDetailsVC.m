@@ -9,11 +9,12 @@
 #import "PermitDetailsVC.h"
 
 @interface PermitDetailsVC ()
-@property (weak, nonatomic) IBOutlet UILabel *permitNumLabel;
-@property (weak, nonatomic) IBOutlet UIButton *ownerButton;
-@property (weak, nonatomic) IBOutlet UILabel *createdLabel;
-@property (weak, nonatomic) IBOutlet UILabel *renewedLabel;
-@property (weak, nonatomic) IBOutlet UILabel *okToMoveLabel;
+
+@property (nonatomic, strong) NSString *ownerDetail;
+@property (nonatomic, strong) NSString *createdDetail;
+@property (nonatomic, strong) NSString *renewedDetail;
+@property (nonatomic, strong) NSString *okToMoveDetail;
+
 @property (weak, nonatomic) IBOutlet UILabel *shortDescLabel;
 
 @end
@@ -30,20 +31,21 @@
     [super viewWillAppear:animated];
     NSDictionary *p = self.permitOfInterest;
 
-    NSString *permitNumStr = [NSString stringWithFormat:@"%04lu", (unsigned long)[p[@"permit"] integerValue]];
+    NSString *permitNumStr = [NSString stringWithFormat:@"Permit %04lu", (unsigned long)[p[@"permit"] integerValue]];
     NSArray *renewals = p[@"renewals"];
-    NSString *renewedStr = @"None";
+    NSString *renewedStr = @"Never";
     if (renewals && renewals.count>0) renewedStr = renewals.lastObject;
     NSString *okToMoveStr = ((NSNumber*)p[@"ok_to_move"]).boolValue ? @"Yes" : @"No";
 
-    //TODO: self.permitOwner = p[@"owner_pk"] and associated segue from self.ownerButton
+    //self.automaticallyAdjustsScrollViewInsets = NO;
     
-    [self.ownerButton setTitle:p[@"owner_name"] forState:UIControlStateNormal];
-    self.permitNumLabel.text = permitNumStr;
-    self.createdLabel.text = p[@"created"];
-    self.renewedLabel.text = renewedStr;
-    self.okToMoveLabel.text = okToMoveStr;
+    self.navigationItem.title = permitNumStr;
     self.shortDescLabel.text = p[@"short_desc"];
+
+    self.ownerDetail = p[@"owner_name"];
+    self.createdDetail = p[@"created"];
+    self.renewedDetail = renewedStr;
+    self.okToMoveDetail = okToMoveStr;
     
 }
 
@@ -52,14 +54,34 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 4;
 }
-*/
+
+- (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PermitCell"];
+    switch(indexPath.row) {
+        case 0:
+            cell.detailTextLabel.text = self.ownerDetail;
+            cell.textLabel.text = @"Owner";
+            break;
+
+        case 1:
+            cell.detailTextLabel.text = self.createdDetail;
+            cell.textLabel.text = @"Created";
+            break;
+
+        case 2:
+            cell.detailTextLabel.text = self.renewedDetail;
+            cell.textLabel.text = @"Renewed";
+            break;
+
+        case 3:
+            cell.detailTextLabel.text = self.okToMoveDetail;
+            cell.textLabel.text = @"OK to Move";
+            break;
+    }
+    return cell;
+}
 
 @end

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PermitDetailsVC : UIViewController
+@interface PermitDetailsVC : UIViewController<UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) NSDictionary *permitOfInterest;
 
