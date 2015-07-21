@@ -110,7 +110,7 @@ typedef void(^ActionBlock)(NSDictionary*);
 #pragma mark QR Handlers
 
 - (BOOL)handleMemberCardQR:(NSString*)memberCardStr {
-    NSString * urlStr = [NSString stringWithFormat:@"http://%@/tasks/read-card/%@/", AppState.sharedInstance.server, memberCardStr];
+    NSString * urlStr = [NSString stringWithFormat:@"http://%@/members/read-card/%@/", AppState.sharedInstance.server, memberCardStr];
     [self talkToServer:urlStr successAction:^(NSDictionary *json) {
         self.memberJson = json;
         [self performSegueWithIdentifier:@"MemberDetails" sender:nil];
