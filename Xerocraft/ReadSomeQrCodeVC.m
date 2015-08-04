@@ -68,7 +68,16 @@
 
 typedef void(^ActionBlock)(NSDictionary*);
 
-- (void) talkToServer:(NSString*)urlStr successAction:(ActionBlock)block{
+UIAlertView* simpleAlert(NSString *title, NSString *msg) {
+    UIAlertView *alert = [UIAlertView alloc];
+    return [alert initWithTitle:title
+                        message:msg
+                       delegate:nil
+              cancelButtonTitle:@"Continue"
+              otherButtonTitles:nil];
+}
+
+- (void)talkToServer:(NSString*)urlStr successAction:(ActionBlock)block{
     
     //TODO: This doesn't deal with 404, etc.
     
@@ -79,20 +88,40 @@ typedef void(^ActionBlock)(NSDictionary*);
     [session
      dataTaskWithURL:url
      completionHandler:
-     ^(NSData *data, NSURLResponse *response, NSError *connectError){
+     ^(NSData *data, NSURLResponse *urlResponse, NSError *connectError){
+         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)urlResponse;
+         NSInteger statusCode = httpResponse.statusCode;
+         NSString *statusText = [NSHTTPURLResponse localizedStringForStatusCode:statusCode];
          NSError* parseError = nil;
          NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&parseError];
-         NSString *serverError = [json objectForKey:@"error"];
+         NSString *xerocraftError = [json objectForKey:@"error"]; // E.g. would violate Xerocraft business rules.
          dispatch_async(dispatch_get_main_queue(),^{
              UIAlertView *alert = nil;
              if (connectError) {
-                 alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Couldn't connect to server." delegate:nil cancelButtonTitle:@"Continue" otherButtonTitles:nil, nil];
+                 alert = simpleAlert(@"Error", @"Couldn't connect to server.");
+             }
+             else if (statusCode >= 500) {
+                 NSString *alertMsg = [NSString stringWithFormat:@"%ld: %@", (long)statusCode, statusText];
+                 alert = simpleAlert(@"Server Error", alertMsg);
+             }
+             else if (statusCode >= 400) {
+                 NSString *alertMsg = [NSString stringWithFormat:@"%ld: %@\nCheck your config.", (long)statusCode, statusText];
+                 alert = simpleAlert(@"Client Error", alertMsg);
              }
              else if (parseError) {
-                 alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Couldn't parse response." delegate:nil cancelButtonTitle:@"Continue" otherButtonTitles:nil, nil];
+                 alert = simpleAlert(@"JSON Error", @"Couldn't parse response.");
              }
-             else if (serverError) {
-                 alert = [[UIAlertView alloc] initWithTitle:@"Server Error" message:serverError delegate:nil cancelButtonTitle:@"Continue" otherButtonTitles:nil, nil];
+             else if (xerocraftError) {
+                 if ([xerocraftError isEqualToString:@"Invalid staff card"]) {
+                     alert = simpleAlert(@"Config Error", @"This app doesn't have a valid copy of YOUR card (not the one you're scanning).");
+                     AppState.sharedInstance.myCardString = nil;
+                 }
+                 if ([xerocraftError isEqualToString:@"Invalid member card"]) {
+                     alert = simpleAlert(@"Error", @"The card you're scanning isn't a valid membership card.");
+                 }
+                 if ([xerocraftError isEqualToString:@"Not a staff card"]) {
+                     alert = simpleAlert(@"Error", @"You can't scan this card because you are not a staff member.");
+                 }
              }
              else {
                  assert(alert == nil);
@@ -110,7 +139,9 @@ typedef void(^ActionBlock)(NSDictionary*);
 #pragma mark QR Handlers
 
 - (BOOL)handleMemberCardQR:(NSString*)memberCardStr {
-    NSString * urlStr = [NSString stringWithFormat:@"http://%@/members/read-card/%@/", AppState.sharedInstance.server, memberCardStr];
+    NSString *server = AppState.sharedInstance.server;
+    NSString *myCardStr = AppState.sharedInstance.myCardString;
+    NSString *urlStr = [NSString stringWithFormat:@"http://%@/members/api/member-details/%@_%@/", server, memberCardStr, myCardStr];
     [self talkToServer:urlStr successAction:^(NSDictionary *json) {
         self.memberJson = json;
         [self performSegueWithIdentifier:@"MemberDetails" sender:nil];
@@ -130,7 +161,6 @@ typedef void(^ActionBlock)(NSDictionary*);
     });
     return YES;
 }
-
 
 - (BOOL)handlePermitQR:(NSDictionary*)jsonData withPermitNum:(NSUInteger)permitNum {
 
