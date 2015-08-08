@@ -119,7 +119,7 @@ UIAlertView* simpleAlert(NSString *title, NSString *msg) {
                  if ([xerocraftError isEqualToString:@"Invalid member card"]) {
                      alert = simpleAlert(@"Error", @"The card you're scanning isn't a valid membership card.");
                  }
-                 if ([xerocraftError isEqualToString:@"Not a staff card"]) {
+                 if ([xerocraftError isEqualToString:@"Not a staff member"]) {
                      alert = simpleAlert(@"Error", @"You can't scan this card because you are not a staff member.");
                  }
              }
@@ -155,8 +155,8 @@ UIAlertView* simpleAlert(NSString *title, NSString *msg) {
     }
     AppState.sharedInstance.mostRecentLocation = @(locNum);
     dispatch_async(dispatch_get_main_queue(), ^{
-        int loc = AppState.sharedInstance.mostRecentLocation.integerValue;
-        [self.locationButton setTitle:[NSString stringWithFormat:@"L%04d",loc] forState:UIControlStateNormal];
+        long loc = AppState.sharedInstance.mostRecentLocation.integerValue;
+        [self.locationButton setTitle:[NSString stringWithFormat:@"L%04ld",loc] forState:UIControlStateNormal];
         self.locationButton.hidden = NO;
     });
     return YES;
