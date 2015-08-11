@@ -8,10 +8,12 @@
 
 #import "AppState.h"
 
-static NSString* const kKeyForSiteName = @"com.adrianboyko.xerocraft.Site";
-static NSString* const kKeyForServer = @"com.adrianboyko.xerocraft.Server";
-static NSString* const kKeyForMyCardString = @"com.adrianboyko.xerocraft.MyCardString";
-static NSString* const kKeyForMostRecentLocation = @"com.adrianboyko.xerocraft.MostRecentLocation";
+#define PREFIX @"com.adrianboyko.xerocraft."
+static NSString* const kKeyForSiteName           = PREFIX @"Site";
+static NSString* const kKeyForServer             = PREFIX @"Server";
+static NSString* const kKeyForMyCardString       = PREFIX @"MyCardString";
+static NSString* const kKeyForMostRecentLocation = PREFIX @"MostRecentLocation";
+static NSString* const kKeyForCheckedIn          = PREFIX @"CheckedIn";
 
 @implementation AppState
 
@@ -90,6 +92,18 @@ static NSString* const kKeyForMostRecentLocation = @"com.adrianboyko.xerocraft.M
     NSUserDefaults* def = NSUserDefaults.standardUserDefaults;
     if (mostRecentLocation == nil) [def removeObjectForKey:kKeyForMostRecentLocation];
     else [def setObject:mostRecentLocation forKey:kKeyForMostRecentLocation];
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - CHECKED IN
+
+- (BOOL) checkedIn {
+    NSNumber *checkedIn = [[NSUserDefaults standardUserDefaults] objectForKey:kKeyForCheckedIn];
+    return checkedIn ? checkedIn.boolValue : NO;
+}
+
+- (void) setCheckedIn:(BOOL)checkedIn {
+    NSUserDefaults* def = NSUserDefaults.standardUserDefaults;
+    [def setObject:@(checkedIn) forKey:kKeyForCheckedIn];
 }
 
 @end

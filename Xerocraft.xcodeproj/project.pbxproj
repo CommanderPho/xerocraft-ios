@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3A0BAD791B547B3800A1E102 /* PermitDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A0BAD781B547B3800A1E102 /* PermitDetailsVC.m */; };
+		3A776DDA1B792BAD00B74CB7 /* BackendApiCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A776DD91B792BAD00B74CB7 /* BackendApiCommunicator.m */; };
 		3A9C458B1B3CD92100A99482 /* HomeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9C458A1B3CD92100A99482 /* HomeVC.m */; };
 		3A9C458E1B3DD50000A99482 /* AppState.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9C458D1B3DD50000A99482 /* AppState.m */; };
 		3A9C45941B3E114700A99482 /* XerocraftTabBarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9C45931B3E114700A99482 /* XerocraftTabBarVC.m */; };
@@ -39,6 +40,8 @@
 /* Begin PBXFileReference section */
 		3A0BAD771B547B3800A1E102 /* PermitDetailsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PermitDetailsVC.h; sourceTree = "<group>"; };
 		3A0BAD781B547B3800A1E102 /* PermitDetailsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PermitDetailsVC.m; sourceTree = "<group>"; };
+		3A776DD81B792BAD00B74CB7 /* BackendApiCommunicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackendApiCommunicator.h; sourceTree = "<group>"; };
+		3A776DD91B792BAD00B74CB7 /* BackendApiCommunicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackendApiCommunicator.m; sourceTree = "<group>"; };
 		3A9C45891B3CD92100A99482 /* HomeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeVC.h; sourceTree = "<group>"; };
 		3A9C458A1B3CD92100A99482 /* HomeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeVC.m; sourceTree = "<group>"; };
 		3A9C458C1B3DD50000A99482 /* AppState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppState.h; sourceTree = "<group>"; };
@@ -139,6 +142,8 @@
 				3A9C458D1B3DD50000A99482 /* AppState.m */,
 				3AAACB651B38AC3A003CFAC0 /* AppDelegate.h */,
 				3AAACB661B38AC3A003CFAC0 /* AppDelegate.m */,
+				3A776DD81B792BAD00B74CB7 /* BackendApiCommunicator.h */,
+				3A776DD91B792BAD00B74CB7 /* BackendApiCommunicator.m */,
 			);
 			path = Xerocraft;
 			sourceTree = "<group>";
@@ -272,6 +277,7 @@
 			files = (
 				3A0BAD791B547B3800A1E102 /* PermitDetailsVC.m in Sources */,
 				3A9C45941B3E114700A99482 /* XerocraftTabBarVC.m in Sources */,
+				3A776DDA1B792BAD00B74CB7 /* BackendApiCommunicator.m in Sources */,
 				3AAACB6A1B38AC3A003CFAC0 /* ReadQrVC.m in Sources */,
 				3ABD6C5C1B3A6B3800E4A292 /* ReadMyCardVC.m in Sources */,
 				3AFF13581B4102B500CB589E /* ConfigurationVC.m in Sources */,

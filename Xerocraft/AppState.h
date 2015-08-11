@@ -17,5 +17,6 @@
 @property (nonatomic, copy) NSString* server;
 @property (nonatomic, copy) NSString* siteName;
 @property (nonatomic, copy) NSNumber* mostRecentLocation;
+@property (nonatomic, assign) BOOL checkedIn;
 
 @end

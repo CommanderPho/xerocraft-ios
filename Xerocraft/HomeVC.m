@@ -8,15 +8,14 @@
 
 #import "HomeVC.h"
 #import "AppState.h"
+#import "BackendApiCommunicator.h"
 
 @interface HomeVC ()
+
 @property (weak, nonatomic) IBOutlet UILabel *siteNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *serverLabel;
-@property (weak, nonatomic) IBOutlet UILabel *myCardStrLabel1;
-@property (weak, nonatomic) IBOutlet UILabel *myCardStrLabel2;
-@property (weak, nonatomic) IBOutlet UILabel *myCardStrLabel3;
-@property (weak, nonatomic) IBOutlet UILabel *myCardStrLabel4;
-
+@property (weak, nonatomic) IBOutlet UIButton *checkInOutButton;
+@property (weak, nonatomic) IBOutlet UILabel *checkInOutLabel;
 
 @end
 
@@ -24,7 +23,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -32,6 +30,7 @@
     [AppState.sharedInstance addObserver:self forKeyPath:@"myCardString" options:NSKeyValueObservingOptionNew context:nil];
     [AppState.sharedInstance addObserver:self forKeyPath:@"server" options:NSKeyValueObservingOptionNew context:nil];
     [AppState.sharedInstance addObserver:self forKeyPath:@"siteName" options:NSKeyValueObservingOptionNew context:nil];
+    [AppState.sharedInstance addObserver:self forKeyPath:@"checkedIn" options:NSKeyValueObservingOptionNew context:nil];
     [self updateLabels];
 }
 
@@ -45,32 +44,33 @@
     
     NSString *siteName = AppState.sharedInstance.siteName;
     NSString *server = AppState.sharedInstance.server;
-    NSString *myCardString = AppState.sharedInstance.myCardString;
+    //NSString *myCardString = AppState.sharedInstance.myCardString;
+    BOOL checkedIn = AppState.sharedInstance.checkedIn;
     
     dispatch_async(dispatch_get_main_queue(), ^{
         self.siteNameLabel.text = siteName ? siteName : @"[No Site]";
         self.serverLabel.text = server ? server : @"[No Server]";
+        NSString *checkActionStr = checkedIn ? @"Check Out" : @"Check In";
+        [self.checkInOutButton setTitle:checkActionStr forState:UIControlStateNormal];
+        NSString *checkStatusStr = checkedIn ? @"You are checked in" : @"You are checked out";
+        self.checkInOutLabel.text = checkStatusStr;
         
-        if (myCardString == nil) {
-            self.myCardStrLabel1.text = @"[No Card String]";
-            self.myCardStrLabel2.text = @"-";
-            self.myCardStrLabel3.text = @"-";
-            self.myCardStrLabel4.text = @"-";
-        }
-        else {
-            self.myCardStrLabel1.text = [myCardString substringWithRange:NSMakeRange(0, 8)];
-            self.myCardStrLabel2.text = [myCardString substringWithRange:NSMakeRange(8, 8)];;
-            self.myCardStrLabel3.text = [myCardString substringWithRange:NSMakeRange(16, 8)];;
-            self.myCardStrLabel4.text = [myCardString substringWithRange:NSMakeRange(24, 8)];;
-        }
         [self.view setNeedsDisplay];
     });
 }
 
-- (IBAction)resetButtonAction:(UIButton *)sender {
-    AppState.sharedInstance.siteName = nil;
-    AppState.sharedInstance.server = nil;
-    AppState.sharedInstance.myCardString = nil;
+- (IBAction)CheckInOutAction:(UIButton *)sender {
+    
+    // The new state we're trying to establish.
+    // Don't set new state into AppState until the backend server responds that it noted the event.
+    BOOL newState = !AppState.sharedInstance.checkedIn;
+    
+    // Let the backend know about the check in/out:
+    VisitEventType evtType = newState ? VisitTypeArrival : VisitTypeDeparture;
+    NSString* myCardStr = AppState.sharedInstance.myCardString;
+    [BackendApiCommunicator.sharedInstance noteVisitEventFor:myCardStr eventType:evtType success:^(NSDictionary *json){
+        AppState.sharedInstance.checkedIn = newState;
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -78,14 +78,24 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
