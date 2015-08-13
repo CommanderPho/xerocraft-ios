@@ -430,14 +430,14 @@
                                             </mask>
                                         </variation>
                                     </textView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Green Check" translatesAutoresizingMaskIntoConstraints="NO" id="JxR-v6-K8W">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Green Circle Check" translatesAutoresizingMaskIntoConstraints="NO" id="JxR-v6-K8W">
                                         <rect key="frame" x="225" y="49" width="16" height="16"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="16" id="7ft-mP-8nQ"/>
                                             <constraint firstAttribute="width" constant="16" id="UyB-li-cTt"/>
                                         </constraints>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Green Check" translatesAutoresizingMaskIntoConstraints="NO" id="qpT-AG-81x">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Green Circle Check" translatesAutoresizingMaskIntoConstraints="NO" id="qpT-AG-81x">
                                         <rect key="frame" x="236" y="167" width="16" height="16"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="16" id="QWV-Y1-2Yq"/>
@@ -506,7 +506,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MfO-fM-A53">
-                                <rect key="frame" x="10" y="145" width="300" height="190"/>
+                                <rect key="frame" x="10" y="135" width="300" height="210"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&lt;site name&gt;" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cyd-T4-sBj">
                                         <rect key="frame" x="20" y="8" width="260" height="21"/>
@@ -526,61 +526,92 @@
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ng8-Ib-glx">
-                                        <rect key="frame" x="76" y="103" width="149" height="67"/>
-                                        <color key="backgroundColor" white="0.91605839420000001" alpha="1" colorSpace="calibratedWhite"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oaG-IC-X9I">
+                                        <rect key="frame" x="35" y="84" width="230" height="115"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="jQW-TA-JPa">
+                                                <rect key="frame" x="122" y="7" width="100" height="100"/>
+                                                <color key="backgroundColor" white="0.91605839420000001" alpha="1" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="100" id="UOr-OI-p0U"/>
+                                                    <constraint firstAttribute="height" constant="100" id="gYR-bh-Nli"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="25"/>
+                                                <state key="normal" title="OUT">
+                                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                </state>
+                                                <state key="disabled">
+                                                    <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                        <integer key="value" value="10"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.maskToBounds" value="YES"/>
+                                                </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="CheckInOutAction:" destination="rbh-Xb-jhD" eventType="touchUpInside" id="fPl-gW-qbj"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Ng8-Ib-glx">
+                                                <rect key="frame" x="8" y="7" width="100" height="100"/>
+                                                <color key="backgroundColor" white="0.91605839420000001" alpha="1" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="100" id="beH-iY-imo"/>
+                                                    <constraint firstAttribute="width" constant="100" id="gIn-KS-SDg"/>
+                                                    <constraint firstAttribute="height" constant="100" id="nql-0r-CrJ"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="25"/>
+                                                <state key="normal" title="IN">
+                                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                </state>
+                                                <state key="disabled">
+                                                    <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                        <integer key="value" value="10"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.maskToBounds" value="YES"/>
+                                                </userDefinedRuntimeAttributes>
+                                                <variation key="default">
+                                                    <mask key="constraints">
+                                                        <exclude reference="gIn-KS-SDg"/>
+                                                    </mask>
+                                                </variation>
+                                                <connections>
+                                                    <action selector="CheckInOutAction:" destination="rbh-Xb-jhD" eventType="touchUpInside" id="aAi-zM-gDY"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="149" id="gIn-KS-SDg"/>
-                                            <constraint firstAttribute="height" constant="67" id="nql-0r-CrJ"/>
+                                            <constraint firstAttribute="height" constant="115" id="7Kn-0H-pfV"/>
+                                            <constraint firstAttribute="trailing" secondItem="jQW-TA-JPa" secondAttribute="trailing" constant="8" id="8Wk-1G-vv3"/>
+                                            <constraint firstItem="Ng8-Ib-glx" firstAttribute="leading" secondItem="oaG-IC-X9I" secondAttribute="leading" constant="8" id="Dyb-P7-2ZZ"/>
+                                            <constraint firstItem="Ng8-Ib-glx" firstAttribute="top" secondItem="oaG-IC-X9I" secondAttribute="top" constant="7" id="OMe-Pz-dXj"/>
+                                            <constraint firstItem="jQW-TA-JPa" firstAttribute="top" secondItem="oaG-IC-X9I" secondAttribute="top" constant="7" id="Rlu-yw-hQm"/>
+                                            <constraint firstAttribute="width" constant="230" id="bej-EY-ZZQ"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="25"/>
-                                        <state key="normal" title="Check In">
-                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <integer key="value" value="10"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.maskToBounds" value="YES"/>
-                                        </userDefinedRuntimeAttributes>
-                                        <connections>
-                                            <action selector="CheckInOutAction:" destination="rbh-Xb-jhD" eventType="touchUpInside" id="aAi-zM-gDY"/>
-                                        </connections>
-                                    </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&lt;Check-In Status&gt;" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RtD-y4-KCe">
-                                        <rect key="frame" x="20" y="74" width="260" height="21"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="21" id="VxX-a0-ADs"/>
-                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="wqx-RO-hwj"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="1Qx-sS-hks" secondAttribute="trailing" constant="20" id="0v8-ye-fKL"/>
-                                    <constraint firstAttribute="trailing" secondItem="RtD-y4-KCe" secondAttribute="trailing" constant="20" id="Clm-JF-xy7"/>
-                                    <constraint firstItem="Ng8-Ib-glx" firstAttribute="top" secondItem="RtD-y4-KCe" secondAttribute="bottom" constant="8" id="Dlo-QN-QDk"/>
+                                    <constraint firstItem="oaG-IC-X9I" firstAttribute="top" secondItem="1Qx-sS-hks" secondAttribute="bottom" constant="30" id="CdW-ha-sVO"/>
                                     <constraint firstAttribute="width" constant="300" id="Egl-gb-3V1"/>
-                                    <constraint firstAttribute="centerX" secondItem="Ng8-Ib-glx" secondAttribute="centerX" id="Rc6-j7-0BX"/>
                                     <constraint firstItem="1Qx-sS-hks" firstAttribute="top" secondItem="cyd-T4-sBj" secondAttribute="bottom" constant="4" id="aFv-Nb-KRq"/>
-                                    <constraint firstItem="RtD-y4-KCe" firstAttribute="top" secondItem="1Qx-sS-hks" secondAttribute="bottom" constant="20" id="anM-EI-hHM"/>
                                     <constraint firstItem="cyd-T4-sBj" firstAttribute="top" secondItem="MfO-fM-A53" secondAttribute="top" constant="8" id="bbz-Cq-6GI"/>
                                     <constraint firstAttribute="centerX" secondItem="cyd-T4-sBj" secondAttribute="centerX" id="dcV-yq-rx0"/>
-                                    <constraint firstItem="Ng8-Ib-glx" firstAttribute="top" secondItem="1Qx-sS-hks" secondAttribute="bottom" constant="8" id="fFl-X6-Vfc"/>
-                                    <constraint firstItem="RtD-y4-KCe" firstAttribute="leading" secondItem="MfO-fM-A53" secondAttribute="leading" constant="20" id="kJh-Hl-53U"/>
                                     <constraint firstAttribute="trailing" secondItem="cyd-T4-sBj" secondAttribute="trailing" constant="20" id="pCX-zs-f4E"/>
                                     <constraint firstItem="1Qx-sS-hks" firstAttribute="leading" secondItem="MfO-fM-A53" secondAttribute="leading" constant="20" id="rHb-J0-pYu"/>
                                     <constraint firstItem="cyd-T4-sBj" firstAttribute="leading" secondItem="MfO-fM-A53" secondAttribute="leading" constant="20" id="rbL-13-IMi"/>
-                                    <constraint firstAttribute="height" constant="190" id="sdh-mU-S3A"/>
+                                    <constraint firstAttribute="height" constant="210" id="sdh-mU-S3A"/>
+                                    <constraint firstAttribute="centerX" secondItem="oaG-IC-X9I" secondAttribute="centerX" id="tRo-TX-GlO"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
                                         <exclude reference="dcV-yq-rx0"/>
-                                        <exclude reference="fFl-X6-Vfc"/>
                                     </mask>
                                 </variation>
                             </view>
@@ -594,8 +625,8 @@
                     <tabBarItem key="tabBarItem" title="Home" image="Logo Tab" id="iHV-lT-QPj"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
-                        <outlet property="checkInOutButton" destination="Ng8-Ib-glx" id="qix-20-cJJ"/>
-                        <outlet property="checkInOutLabel" destination="RtD-y4-KCe" id="prG-rr-Yfi"/>
+                        <outlet property="checkInButton" destination="Ng8-Ib-glx" id="pKv-pM-uyN"/>
+                        <outlet property="checkOutButton" destination="jQW-TA-JPa" id="T1L-E0-6HC"/>
                         <outlet property="serverLabel" destination="1Qx-sS-hks" id="DK1-s4-rH8"/>
                         <outlet property="siteNameLabel" destination="cyd-T4-sBj" id="YCV-10-Ia5"/>
                     </connections>
@@ -638,14 +669,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" bounces="NO" text="Sounds courtesy www.soundjay.com" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Rs7-lh-X0w">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Rs7-lh-X0w">
                                 <rect key="frame" x="54" y="154" width="213" height="172"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="172" id="xN7-Ra-oRu"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <string key="text">Sounds courtesy
+http://www.soundjay.com
+
+Icons courtesy
+http://icons8.com
+</string>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <dataDetectorType key="dataDetectorTypes" link="YES"/>
                             </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -703,7 +741,7 @@
     </scenes>
     <resources>
         <image name="About Tab" width="30" height="30"/>
-        <image name="Green Check" width="16" height="16"/>
+        <image name="Green Circle Check" width="16" height="16"/>
         <image name="Logo Tab" width="30" height="29"/>
         <image name="Read Tab" width="30" height="30"/>
         <image name="Settings Tab" width="30" height="30"/>

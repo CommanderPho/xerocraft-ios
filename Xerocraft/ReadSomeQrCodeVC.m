@@ -74,10 +74,13 @@
 
 - (BOOL)handleMemberCardQR:(NSString*)memberCardStr {
     NSString *myCardStr = AppState.sharedInstance.myCardString;
-    [self.xeroAPI getMemberDetailsForStr:memberCardStr onBehalfOf:myCardStr success:^(NSDictionary *json){
-        self.memberJson = json;
-        [self performSegueWithIdentifier:@"MemberDetails" sender:nil];
-    }];
+    [self.xeroAPI getMemberDetailsForStr:memberCardStr onBehalfOf:myCardStr
+        success:^(NSDictionary *json) {
+            self.memberJson = json;
+            [self performSegueWithIdentifier:@"MemberDetails" sender:nil];
+        }
+        failure:nil
+    ];
     return YES;
 }
 
@@ -98,34 +101,37 @@
 
     NSNumber *mostRecentLoc = AppState.sharedInstance.mostRecentLocation;
     
-    [self.xeroAPI getPermitDetailsForNum:permitNum success:^(NSDictionary *json){
+    [self.xeroAPI getPermitDetailsForNum:permitNum
+        success:^(NSDictionary *json){
         
-        self.permitJson = json;
+            self.permitJson = json;
 
-        if (AppState.sharedInstance.mostRecentLocation != nil) {
-            // The user is taking inventory
+            if (AppState.sharedInstance.mostRecentLocation != nil) {
+                // The user is taking inventory
 
-            //TODO: Was permit was most recently scanned at a different location.  If so, ask "did you forget to scan a location QR?"
-            
-            // Inform backend server:
-            [self.xeroAPI notePermitScanOf:permitNum atLocation:mostRecentLoc.unsignedLongValue success:nil];
-            
-            // Show the permit number in the GUI, for a few seconds:
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.permitButton setTitle:[NSString stringWithFormat:@"P%04lu", (unsigned long)permitNum] forState:UIControlStateNormal];
-                self.permitButton.alpha = 1;
-                // Jumping through some hoops with animation to enable user interaction. Final value for alpha ramp cannot be 0.0.
-                NSUInteger opts = UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionCurveEaseOut ;
-                [UIView animateWithDuration:1.0 delay:3.0 options:opts animations:^{self.permitButton.alpha=0.05;} completion:^(BOOL x){self.permitButton.alpha=0.0;}];
-            });
+                //TODO: Was permit was most recently scanned at a different location.  If so, ask "did you forget to scan a location QR?"
+                
+                // Inform backend server:
+                [self.xeroAPI notePermitScanOf:permitNum atLocation:mostRecentLoc.unsignedLongValue success:nil failure:nil];
+                
+                // Show the permit number in the GUI, for a few seconds:
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.permitButton setTitle:[NSString stringWithFormat:@"P%04lu", (unsigned long)permitNum] forState:UIControlStateNormal];
+                    self.permitButton.alpha = 1;
+                    // Jumping through some hoops with animation to enable user interaction. Final value for alpha ramp cannot be 0.0.
+                    NSUInteger opts = UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionCurveEaseOut ;
+                    [UIView animateWithDuration:1.0 delay:3.0 options:opts animations:^{self.permitButton.alpha=0.05;} completion:^(BOOL x){self.permitButton.alpha=0.0;}];
+                });
+            }
+            else {
+                // The user wants permit details.
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self performSegueWithIdentifier:@"PermitDetails" sender:self];
+                });
+            }
         }
-        else {
-            // The user wants permit details.
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self performSegueWithIdentifier:@"PermitDetails" sender:self];
-            });
-        }
-    }];
+        failure:nil
+    ];
     return YES;
 }
 

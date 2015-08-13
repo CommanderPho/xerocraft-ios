@@ -17,6 +17,9 @@
 @property (nonatomic, copy) NSString* server;
 @property (nonatomic, copy) NSString* siteName;
 @property (nonatomic, copy) NSNumber* mostRecentLocation;
-@property (nonatomic, assign) BOOL checkedIn;
+
+// The next two track app interaction with the backend, not user interaction with the app:
+@property (nonatomic, copy) NSDate* mostRecentBackendCheckIn;
+@property (nonatomic, copy) NSDate* mostRecentBackendCheckOut;
 
 @end

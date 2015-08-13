@@ -37,7 +37,7 @@ UIAlertView* simpleAlert(NSString *title, NSString *msg) {
               otherButtonTitles:nil];
 }
 
-- (void)talkToServer:(NSString*)urlStr successAction:(ActionBlock)block{
+- (void)talkToServer:(NSString*)urlStr successAction:(ActionBlock)successBlock failureAction:(ActionBlock)failureBlock {
     
     //TODO: This doesn't deal with 404, etc.
     
@@ -72,11 +72,13 @@ UIAlertView* simpleAlert(NSString *title, NSString *msg) {
                  alert = simpleAlert(@"JSON Error", @"Couldn't parse response.");
              }
              else if (xerocraftError) {
+                 //REVIEW: Have caller provide an errorBlock which would handle domain errors? If not provided, default to below:
                  if ([xerocraftError isEqualToString:@"Invalid staff card"]) {
                      alert = simpleAlert(@"Config Error", @"This app doesn't have a valid copy of YOUR card (not the one you're scanning).");
                      //AppState.sharedInstance.myCardString = nil;
                  }
                  if ([xerocraftError isEqualToString:@"Invalid member card"]) {
+                     //TODO: The following error string isn't appropriate for the check in/out case.
                      alert = simpleAlert(@"Error", @"The card you're scanning isn't a valid membership card.");
                  }
                  if ([xerocraftError isEqualToString:@"Not a staff member"]) {
@@ -85,9 +87,12 @@ UIAlertView* simpleAlert(NSString *title, NSString *msg) {
              }
              else {
                  assert(alert == nil);
-                 if (block) block(json);
+                 if (successBlock) successBlock(json);
              }
-             if (alert) [alert show];
+             if (alert) {
+                 [alert show];
+                 if (failureBlock) failureBlock(json);
+             }
              
          });
      }
@@ -95,32 +100,36 @@ UIAlertView* simpleAlert(NSString *title, NSString *msg) {
     [task resume];
 }
 
-- (void)getMemberDetailsForStr:(NSString*)memberCardStr onBehalfOf:(NSString*)staffCardStr success:(ActionBlock)successBlock {
+- (void)getMemberDetailsForStr:(NSString*)memberCardStr onBehalfOf:(NSString*)staffCardStr
+                       success:(ActionBlock)successBlock failure:(ActionBlock)failureBlock {
     NSString *server = AppState.sharedInstance.server;
     NSString *urlPattern = @"http://%@/members/api/member-details/%@_%@/";
     NSString *urlStr = [NSString stringWithFormat:urlPattern, server, memberCardStr, staffCardStr];
-    [self talkToServer:urlStr successAction:successBlock];
+    [self talkToServer:urlStr successAction:successBlock failureAction:failureBlock];
 }
 
-- (void)getPermitDetailsForNum:(NSUInteger)permitNum success:(ActionBlock)successBlock {
+- (void)getPermitDetailsForNum:(NSUInteger)permitNum
+                       success:(ActionBlock)successBlock failure:(ActionBlock)failureBlock {
     NSString *server = AppState.sharedInstance.server;
     NSString *urlPattern = @"http://%@/inventory/get-permit-details/%lu/";
     NSString *urlStr = [NSString stringWithFormat:urlPattern, server, (UInt32)permitNum];
-    [self talkToServer:urlStr successAction:successBlock];
+    [self talkToServer:urlStr successAction:successBlock failureAction:failureBlock];
 }
 
-- (void)notePermitScanOf:(NSUInteger)permitNum atLocation:(NSUInteger)locationNum success:(ActionBlock)successBlock {
+- (void)notePermitScanOf:(NSUInteger)permitNum atLocation:(NSUInteger)locationNum
+                 success:(ActionBlock)successBlock  failure:(ActionBlock)failureBlock {
     NSString *server = AppState.sharedInstance.server;
     NSString *urlPattern = @"http://%@/inventory/note-permit-scan/%lu_%lu/";
     NSString *urlStr = [NSString stringWithFormat:urlPattern, server, (UInt32)permitNum, (UInt32)locationNum];
-    [self talkToServer:urlStr successAction:successBlock];
+    [self talkToServer:urlStr successAction:successBlock failureAction:failureBlock];
 }
 
-- (void)noteVisitEventFor:(NSString *)visitorCardStr eventType:(VisitEventType)eventType success:(ActionBlock)successBlock {
+- (void)noteVisitEventFor:(NSString *)visitorCardStr eventType:(VisitEventType)eventType
+                  success:(ActionBlock)successBlock failure:(ActionBlock)failureBlock {
     NSString *server = AppState.sharedInstance.server;
     NSString *urlPattern = @"http://%@/members/api/visit-event/%@_%c/";
     NSString *urlStr = [NSString stringWithFormat:urlPattern, server, visitorCardStr, eventType];
-    [self talkToServer:urlStr successAction:successBlock];
+    [self talkToServer:urlStr successAction:successBlock failureAction:failureBlock];
 }
 
 @end

@@ -20,10 +20,22 @@ typedef NS_ENUM(UInt8, VisitEventType) {
     VisitTypeDeparture = 'D'
 };
 
-- (void)getMemberDetailsForStr:(NSString*)memberCardStr onBehalfOf:(NSString*)staffCardStr success:(ActionBlock)successBlock;
-- (void)getPermitDetailsForNum:(NSUInteger)permitNum success:(ActionBlock)successBlock;
-- (void)notePermitScanOf:(NSUInteger)permitNum atLocation:(NSUInteger)locationNum success:(ActionBlock)successBlock;
-- (void)noteVisitEventFor:(NSString*)visitorCardStr eventType:(VisitEventType)eventType success:(ActionBlock)successBlock;
+- (void)getMemberDetailsForStr:(NSString*)memberCardStr
+                    onBehalfOf:(NSString*)staffCardStr
+                       success:(ActionBlock)successBlock
+                       failure:(ActionBlock)failureBlock;
+
+- (void)getPermitDetailsForNum:(NSUInteger)permitNum
+                       success:(ActionBlock)successBlock
+                       failure:(ActionBlock)failureBlock;
+
+- (void)notePermitScanOf:(NSUInteger)permitNum atLocation:(NSUInteger)locationNum
+                 success:(ActionBlock)successBlock
+                 failure:(ActionBlock)failureBlock;
+
+- (void)noteVisitEventFor:(NSString*)visitorCardStr eventType:(VisitEventType)eventType
+                  success:(ActionBlock)successBlock
+                  failure:(ActionBlock)failureBlock;
 
 
 @end

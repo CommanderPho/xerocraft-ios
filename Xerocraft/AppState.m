@@ -13,7 +13,10 @@ static NSString* const kKeyForSiteName           = PREFIX @"Site";
 static NSString* const kKeyForServer             = PREFIX @"Server";
 static NSString* const kKeyForMyCardString       = PREFIX @"MyCardString";
 static NSString* const kKeyForMostRecentLocation = PREFIX @"MostRecentLocation";
-static NSString* const kKeyForCheckedIn          = PREFIX @"CheckedIn";
+static NSString* const kKeyForMostRecentBackendCheckIn  = PREFIX @"MostRecentBackendCheckIn";
+static NSString* const kKeyForMostRecentBackendCheckOut = PREFIX @"MostRecentBackendCheckOut";
+
+
 
 @implementation AppState
 
@@ -94,16 +97,43 @@ static NSString* const kKeyForCheckedIn          = PREFIX @"CheckedIn";
     else [def setObject:mostRecentLocation forKey:kKeyForMostRecentLocation];
 }
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - CHECKED IN
+// - - - - - - - - - - - - - - - - - - - - - - - - - - BACKEND CHECK IN
 
-- (BOOL) checkedIn {
-    NSNumber *checkedIn = [[NSUserDefaults standardUserDefaults] objectForKey:kKeyForCheckedIn];
-    return checkedIn ? checkedIn.boolValue : NO;
+- (NSDate*) mostRecentBackendCheckIn {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:kKeyForMostRecentBackendCheckIn];
 }
 
-- (void) setCheckedIn:(BOOL)checkedIn {
+- (void) setMostRecentBackendCheckIn:(NSDate*)checkInDateTime {
     NSUserDefaults* def = NSUserDefaults.standardUserDefaults;
-    [def setObject:@(checkedIn) forKey:kKeyForCheckedIn];
+    if (checkInDateTime == nil) [def removeObjectForKey:kKeyForMostRecentBackendCheckIn];
+    else [def setObject:checkInDateTime forKey:kKeyForMostRecentBackendCheckIn];
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - BACKEND CHECK OUT
+
+- (NSDate*) mostRecentBackendCheckOut {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:kKeyForMostRecentBackendCheckOut];
+}
+
+- (void) setMostRecentBackendCheckOut:(NSDate*)checkOutDateTime {
+    NSUserDefaults* def = NSUserDefaults.standardUserDefaults;
+    if (checkOutDateTime == nil) [def removeObjectForKey:kKeyForMostRecentBackendCheckOut];
+    else [def setObject:checkOutDateTime forKey:kKeyForMostRecentBackendCheckOut];
 }
 
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

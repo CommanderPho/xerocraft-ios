@@ -32,7 +32,7 @@
     BOOL haveServer = AppState.sharedInstance.server != nil;
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        UIImage* check = [UIImage imageNamed:@"Green Check"];
+        UIImage* check = [UIImage imageNamed:@"Green Circle Check"];
         UIImage* ex = [UIImage imageNamed:@"Red X"];
         self.myCardStatusImg.image = haveMyCard ? check : ex;
         self.SiteStatusImg.image = haveSiteName && haveServer ? check : ex;
